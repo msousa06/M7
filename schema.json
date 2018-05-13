@@ -1,0 +1,100 @@
+{
+	"definitions": {
+		"categorias":{
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer"
+				},
+				"nome": {
+					"type": "string"
+				}
+			}, 
+			"required": ["id", "nome"]
+		},
+		"departamentos": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer"
+				},
+				"nome": {
+					"type": "string"
+				},
+				"sigla": {
+					"type": "string",
+					"pattern": "[A-Z]"
+				}
+			},
+			"required": ["id", "nome", "sigla"]
+		},
+		"area-cientifica": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer"
+				},
+				"nome": {
+					"type": "string"
+				},
+				"sigla": {
+					"type": "string",
+					"pattern": "[A-Z]"
+				}
+			},
+			"required": ["id", "nome", "sigla"]
+		},
+		"disciplinas": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer"
+				},
+				"nome": {
+					"type": "string"
+				},
+				"sigla": {
+					"type": "string",
+					"pattern": "[A-Z]"
+				},
+				"id_area_cientifica": {
+					"$ref": "#definitions/area-cientifica/properties/id"
+				},
+				"id_departamento": {
+					"$ref": "#definitions/departamentos/properties/id"
+				}
+			},
+			"required": ["id", "nome", "sigla", "id_area_cientifica", "id_departamento"]
+		},
+		"docentes": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer"
+				},
+				"nome": {
+					"type": "string"
+				},
+				"apelido": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"telefone": {
+					"type": "string"
+				},
+				"id_categoria": {
+					"$ref": "#definitions/categorias/properties/id"
+				},
+				"id_departamento": {
+					"$ref": "#definitions/departamentos/properties/id"
+				},
+				"id_area_cientifica": {
+					"$ref": "areas_cientificas.json"
+				}
+			},
+			"required": ["id", "nome", "apelido", "email", "telefone"]
+		}
+	}
+}
