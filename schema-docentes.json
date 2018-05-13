@@ -1,0 +1,31 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "nome": {
+            "type": "string"
+        },
+        "apelido": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string"
+        },
+        "telefone": {
+            "type": "string"
+        },
+        "id_categoria": {
+            "$ref": "categorias.json"
+        },
+        "id_departamento": {
+            "$ref": "departamentos.json"
+        },
+        "id_area_cientifica": {
+            "$ref": "areas_cientificas.json"
+        }
+    },
+    "required": ["id", "nome", "apelido", "email", "telefone"],
+    "title": "docentes"
+}

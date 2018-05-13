@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "nome": {
+            "type": "string"
+        },
+        "sigla": {
+            "type": "string",
+            "pattern": "[A-Z]"
+        }
+    },
+    "required": [
+        "id",
+        "nome",
+        "sigla"
+    ],
+    "title": "departamentos"
+}

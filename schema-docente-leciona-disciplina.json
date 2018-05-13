@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "id_docente": {
+            "$ref": "docentes.json"
+        },
+        "id_disciplina": {
+            "$ref": "disciplinas.json"
+        }
+    },
+    "required": ["id_docente", "id_disciplina"],
+    "title": "docente-leciona-disciplina"
+}

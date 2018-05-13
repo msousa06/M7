@@ -1,0 +1,29 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "nome": {
+            "type": "string"
+        },
+        "sigla": {
+            "type": "string",
+            "pattern": "[A-Z]"
+        },
+        "id_area_cientifica": {
+            "$ref": "area-cientifica.json"
+        },
+        "id_departamento": {
+            "$ref": "departamentos.json"
+        }
+    },
+    "required": [
+        "id",
+        "nome",
+        "sigla",
+        "id_area_cientifica",
+        "id_departamento"
+    ],
+    "title": "disciplinas"
+}
