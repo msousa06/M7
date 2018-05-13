@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "782835825487",
+    "firebase_url": "https://projeto-gp.firebaseio.com",
+    "project_id": "projeto-gp",
+    "storage_bucket": "projeto-gp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782835825487:android:fc096ff8f0fc6ff9",
+        "android_client_info": {
+          "package_name": "com.gp.gpproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782835825487-p6u8g4mm9jq1qkhfo1kkhr1tiqjdsc8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE9DEzmVddnsiWw3B1zP7cMWImp64EGf4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
