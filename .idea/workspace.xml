@@ -10,18 +10,7 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39e589db-b171-4b5a-afd9-12ac9b0a873f" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/schema-areas-cientificas.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/schema-categorias.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/schema-departamentos.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/schema-disciplinas.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/schema-docente-leciona-disciplina.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/schema-docentes.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/schema-rucs.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/schema.json" afterPath="" />
-    </list>
+    <list default="true" id="39e589db-b171-4b5a-afd9-12ac9b0a873f" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -2141,7 +2130,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="334" />
     <option name="y" value="164" />
     <option name="width" value="1039" />
@@ -2427,7 +2416,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
