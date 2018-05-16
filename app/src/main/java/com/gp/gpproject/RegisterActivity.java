@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.sql.SQLOutput;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,9 +25,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
+    private DBManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        db = new DBManager(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -54,6 +56,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if(v.equals(buttonRegister)) {
             registerUser();
         }
+    }
+
+    public void sqlTest() {
+        String email = textEmail.getText().toString().trim();
+        db.createData(db, email);
     }
 
 

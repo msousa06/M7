@@ -28,7 +28,7 @@
 			},
 			"required": ["id", "nome", "sigla"]
 		},
-		"area-cientifica": {
+		"areas-cientificas": {
 			"type": "object",
 			"properties": {
 				"id": {
@@ -91,10 +91,35 @@
 					"$ref": "#definitions/departamentos/properties/id"
 				},
 				"id_area_cientifica": {
-					"$ref": "areas_cientificas.json"
+					"$ref": "#definitions/areas_cientificas/properties/id"
 				}
 			},
 			"required": ["id", "nome", "apelido", "email", "telefone"]
+		},
+		"rucs": {
+			"type": "object",
+			"properties": {
+				"id_docente": {
+					"$ref": "#definitions/docentes/properties/id"
+				},
+				"id_disciplina": {
+					"$ref": "#definitions/disciplinas/properties/id"
+				}
+			},
+			"required": ["id_docente", "id_disciplina"]
+		},
+		"docente-leciona-disciplina": {
+			"type": "object",
+			"properties": {
+				"id_docente": {
+					"$ref": "#definitions/docentes/properties/id"
+				},
+				"id_disciplina": {
+					"$ref": "#definitions/disciplinas/properties/id"
+				}
+			},
+			"required": ["id_docente", "id_disciplina"]
 		}
 	}
+	
 }
