@@ -95,8 +95,6 @@ public class DBManager extends SQLiteOpenHelper {
 
     public long createData(DBManager dbManager, String nome) {
         ContentValues values = new ContentValues();
-        String uniqueID = UUID.randomUUID().toString(); //creating unique index
-        values.put("id", uniqueID);
         values.put("nome", nome);
         SQLiteDatabase db = dbManager.getWritableDatabase();
         long result = db.insert("categorias", null, values);
