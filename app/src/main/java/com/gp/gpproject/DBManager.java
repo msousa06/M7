@@ -22,54 +22,54 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS departamentos (id TEXT PRIMARY KEY, " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS departamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " nome TEXT NOT NULL UNIQUE, sigla TEXT NOT NULL UNIQUE);");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS categorias (id TEXT PRIMARY KEY , nome " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nome " +
                 " TEXT UNIQUE NOT NULL);");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS funcionarios (id TEXT PRIMARY KEY , nome  TEXT NOT NULL, " +
-                " apelido TEXT NOT NULL, telefone TEXT, email TEXT NOT NULL UNIQUE, id_categoria TEXT, FOREIGN KEY " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS funcionarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome  TEXT NOT NULL, " +
+                " apelido TEXT NOT NULL, telefone TEXT, email TEXT NOT NULL UNIQUE, id_categoria INTEGER, FOREIGN KEY " +
                 " (id_categoria) REFERENCES categorias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
         
-        db.execSQL("CREATE TABLE IF NOT EXISTS docentes (id TEXT PRIMARY KEY UNIQUE, pontos INTEGER DEFAULT 0, " +
-                " id_departamento TEXT NOT NULL, FOREIGN KEY (id) REFERENCES funcionarios (id) ON DELETE NO ACTION " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS docentes (id INTEGER PRIMARY KEY UNIQUE, pontos INTEGER DEFAULT 0, " +
+                " id_departamento INTEGER NOT NULL, FOREIGN KEY (id) REFERENCES funcionarios (id) ON DELETE NO ACTION " +
                 " ON UPDATE CASCADE, FOREIGN KEY (id_departamento) REFERENCES departamentos (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
         
         
-        db.execSQL("CREATE TABLE IF NOT EXISTS disciplinas (id TEXT PRIMARY KEY , nome TEXT NOT NULL UNIQUE, " +
-                " sigla TEXT NOT NULL UNIQUE, id_departamento TEXT NOT NULL , id_ruc TEXT UNIQUE, FOREIGN KEY " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS disciplinas (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL UNIQUE, " +
+                " sigla TEXT NOT NULL UNIQUE, id_departamento INTEGER NOT NULL , id_ruc INTEGER UNIQUE, FOREIGN KEY " +
                 " (id_departamento) REFERENCES departamentos (id) ON DELETE NO ACTION ON UPDATE CASCADE, " +
                 " FOREIGN KEY (id_ruc) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS docente_disciplina (id TEXT PRIMARY KEY  , id_disciplina " +
-                " TEXT NOT NULL, id_docente TEXT NOT NULL, CONSTRAINT unique_pair UNIQUE (id_disciplina, id_docente), " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS docente_disciplina (id INTEGER PRIMARY KEY AUTOINCREMENT, id_disciplina " +
+                " INTEGER NOT NULL, id_docente INTEGER NOT NULL, CONSTRAINT unique_pair UNIQUE (id_disciplina, id_docente), " +
                 " FOREIGN KEY (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, " +
                 " FOREIGN KEY (id_disciplina) REFERENCES disciplinas (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias (id TEXT NOT NULL PRIMARY KEY  , sala TEXT NOT NULL, " +
-                " hora TEXT NOT NULL,id_ruc TEXT NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
+                " hora INTEGER NOT NULL,id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia (id TEXT NOT NULL PRIMARY KEY  ,id_vigilancia " +
-                " TEXT NOT NULL,id_docente TEXT NOT NULL,  esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
+                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias_history (id TEXT NOT NULL PRIMARY KEY  , sala TEXT NOT NULL, " +
-                " hora TEXT NOT NULL,id_ruc TEXT NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
+                " hora INTEGER NOT NULL,id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia_history (id TEXT NOT NULL PRIMARY KEY  ,id_vigilancia " +
-                " TEXT NOT NULL,id_docente TEXT NOT NULL, esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
+                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
