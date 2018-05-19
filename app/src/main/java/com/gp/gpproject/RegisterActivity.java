@@ -16,6 +16,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -57,13 +61,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             registerUser();
         }
     }
-
-    public void sqlTest() {
-        String email = textEmail.getText().toString().trim();
-        db.createData(db, email);
-    }
-
-
 
     private void registerUser() {
         String email = textEmail.getText().toString().trim();

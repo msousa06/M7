@@ -4,7 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.widget.Toast;
+
 import com.google.firebase.storage.FirebaseStorage;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class DBManager extends SQLiteOpenHelper {
@@ -53,7 +62,7 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " hora TEXT NOT NULL, data TEXT NOT NULL, id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
+                " data INTEGER NOT NULL, id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
@@ -64,7 +73,7 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " hora TEXT NOT NULL, data TEXT NOT NULL, id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
+                " data INTEGER NOT NULL, id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
@@ -101,6 +110,36 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+
+    private String convertDateHelper(String pattern, long date) {
+        SimpleDateFormat simpleDate = new SimpleDateFormat(pattern);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date);
+
+        Date now = calendar.getTime();
+        String timestamp = simpleDate.format(now);
+        return timestamp;
+    }
+
+    private String convertToHour(long date) {
+        return convertDateHelper("HH:mm:ss", date);
+    }
+
+    private String convertToDate(long date) {
+        return convertDateHelper("dd/MM/yyyy", date);
+    }
+
+    private long convertDateToLong(Date date) {
+        return date.getTime();
+    }
+
+    private long convertDateToLong(int dia, int mes, int ano, int hora, int minuto) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(ano, mes, dia, hora, minuto, 00);
+
+        return calendar.getTimeInMillis();
+    }
+
 
 
     /*
