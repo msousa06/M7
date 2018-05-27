@@ -53,7 +53,7 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " hora INTEGER NOT NULL,id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
+                " hora TEXT NOT NULL, data TEXT NOT NULL, id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
@@ -64,12 +64,12 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " hora INTEGER NOT NULL,id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
+                " hora TEXT NOT NULL, data TEXT NOT NULL, id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
-                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
+                " INTEGER NOT NULL, id_docente INTEGER NOT NULL, esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
