@@ -12,6 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="39e589db-b171-4b5a-afd9-12ac9b0a873f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gp/gpproject/DBManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/gp/gpproject/DBManager.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -80,12 +81,14 @@
       <file leaf-file-name="DBManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gp/gpproject/DBManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="96" column="51" lean-forward="false" selection-start-line="96" selection-start-column="51" selection-end-line="96" selection-end-column="51" />
+            <state relative-caret-position="7571">
+              <caret line="532" column="1" lean-forward="false" selection-start-line="532" selection-start-column="1" selection-end-line="532" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#607#608#0" expanded="true" />
-                <element signature="e#676#677#0" expanded="true" />
+                <element signature="e#10330#10338#0" expanded="true" />
+                <element signature="e#14230#14238#0" expanded="true" />
+                <element signature="e#19361#19369#0" expanded="true" />
+                <element signature="e#19875#19883#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -132,6 +135,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <push-targets>
+      <push-target-info target-remote="origin" target-branch="Joao" repo="$PROJECT_DIR$" source="master" />
+    </push-targets>
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -2453,7 +2459,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527386173213</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Merge branch 'Joao' of https://github.com/msousa06/M7&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1527386194489</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1527386194489</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2533,8 +2546,10 @@
           <caret line="96" column="51" lean-forward="false" selection-start-line="96" selection-start-column="51" selection-end-line="96" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#676#677#0" expanded="true" />
+            <element signature="e#10330#10338#0" expanded="true" />
+            <element signature="e#14230#14238#0" expanded="true" />
+            <element signature="e#19361#19369#0" expanded="true" />
+            <element signature="e#19875#19883#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2566,8 +2581,10 @@
           <caret line="81" column="57" lean-forward="true" selection-start-line="81" selection-start-column="57" selection-end-line="81" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#676#677#0" expanded="true" />
+            <element signature="e#10330#10338#0" expanded="true" />
+            <element signature="e#14230#14238#0" expanded="true" />
+            <element signature="e#19361#19369#0" expanded="true" />
+            <element signature="e#19875#19883#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2599,8 +2616,10 @@
           <caret line="107" column="6" lean-forward="true" selection-start-line="107" selection-start-column="6" selection-end-line="107" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#676#677#0" expanded="true" />
+            <element signature="e#10330#10338#0" expanded="true" />
+            <element signature="e#14230#14238#0" expanded="true" />
+            <element signature="e#19361#19369#0" expanded="true" />
+            <element signature="e#19875#19883#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2632,8 +2651,10 @@
           <caret line="6" column="51" lean-forward="false" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#676#677#0" expanded="true" />
+            <element signature="e#10330#10338#0" expanded="true" />
+            <element signature="e#14230#14238#0" expanded="true" />
+            <element signature="e#19361#19369#0" expanded="true" />
+            <element signature="e#19875#19883#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2654,8 +2675,10 @@
           <caret line="28" column="45" lean-forward="true" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#676#677#0" expanded="true" />
+            <element signature="e#10330#10338#0" expanded="true" />
+            <element signature="e#14230#14238#0" expanded="true" />
+            <element signature="e#19361#19369#0" expanded="true" />
+            <element signature="e#19875#19883#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2698,8 +2721,10 @@
           <caret line="40" column="8" lean-forward="true" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#676#677#0" expanded="true" />
+            <element signature="e#10330#10338#0" expanded="true" />
+            <element signature="e#14230#14238#0" expanded="true" />
+            <element signature="e#19361#19369#0" expanded="true" />
+            <element signature="e#19875#19883#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2880,12 +2905,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gp/gpproject/DBManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="96" column="51" lean-forward="false" selection-start-line="96" selection-start-column="51" selection-end-line="96" selection-end-column="51" />
+        <state relative-caret-position="7571">
+          <caret line="532" column="1" lean-forward="false" selection-start-line="532" selection-start-column="1" selection-end-line="532" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#676#677#0" expanded="true" />
+            <element signature="e#10330#10338#0" expanded="true" />
+            <element signature="e#14230#14238#0" expanded="true" />
+            <element signature="e#19361#19369#0" expanded="true" />
+            <element signature="e#19875#19883#0" expanded="true" />
           </folding>
         </state>
       </provider>
