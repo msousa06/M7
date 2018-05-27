@@ -12,16 +12,34 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AdicionarDocenteActivity" />
+        <activity
+            android:name=".ListarDocentesActivity"
+            android:label="@string/title_activity_listar_docentes"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".AdicionarCategoriaActivity" />
+        <activity android:name=".AdicionarDepartamentoActivity" />
+        <activity android:name=".EditarDocenteActivity" />
+        <activity android:name=".EliminarDocenteActivity" />
+        <activity android:name=".ListarVigilanciasActivity" />
+        <activity android:name=".AgendarVigilanciaActivity" />
+        <activity android:name=".AdicionarDisciplinaActivity" />
+        <activity android:name=".EliminarVigilanciaActivity" />
+        <activity android:name=".EditarVigilanciaActivity" />
+        <activity android:name=".RegisterActivity" />
     </application>
 
 </manifest>
