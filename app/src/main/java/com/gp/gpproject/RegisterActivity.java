@@ -1,6 +1,7 @@
 package com.gp.gpproject;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -58,8 +59,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Sign in", Toast.LENGTH_SHORT).show();
         }
         if(v.equals(buttonRegister)) {
-            registerUser();
+            //registerUser();
+            temp();
         }
+    }
+
+
+    private void temp(){
+        Intent goToHome = new Intent(this, Search.class);
+        startActivity(goToHome);
+        finish();
     }
 
     private void registerUser() {
