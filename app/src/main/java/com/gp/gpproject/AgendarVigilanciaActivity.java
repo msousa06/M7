@@ -63,8 +63,13 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
                     if (!mDisplayDate.getText().toString().equalsIgnoreCase("")) {
                         if (!mDisplayTime.getText().toString().equalsIgnoreCase("")) {
 
+<<<<<<< HEAD
                             manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
                             finish();
+=======
+                                manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
+                                finish();
+>>>>>>> Joao
 
                         } else {
                             alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
