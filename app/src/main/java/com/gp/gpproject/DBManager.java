@@ -4,12 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.google.firebase.storage.FirebaseStorage;
+//import com.google.firebase.storage.FirebaseStorage;
 import java.util.UUID;
 
 public class DBManager extends SQLiteOpenHelper {
 
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
+  //  private FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "m7database.db";
     private static final String DATABASE_PATH = "database/";
