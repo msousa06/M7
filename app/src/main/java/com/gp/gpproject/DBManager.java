@@ -1,6 +1,5 @@
 package com.gp.gpproject;
 
-<<<<<<< HEAD
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -80,7 +79,6 @@ public class DBManager extends SQLiteOpenHelper {
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
     }
-=======
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -116,7 +114,6 @@ public class RegistrationActivity extends Activity {
     private EditText txtEmailAddress;
     private EditText txtPassword;
     private FirebaseAuth firebaseAuth;
->>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +145,6 @@ public class RegistrationActivity extends Activity {
                     }
                 });
     }
-<<<<<<< HEAD
 
 
     /*
@@ -575,6 +571,4 @@ public class RegistrationActivity extends Activity {
         contentValues.put("pontuacao_vigilancia", pontuacao);
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
     }
-=======
->>>>>>> master
 }
