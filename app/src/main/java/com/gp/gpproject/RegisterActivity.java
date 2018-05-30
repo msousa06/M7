@@ -1,10 +1,7 @@
 package com.gp.gpproject;
-
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -62,15 +59,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         */
     }
-
-
     /*
     public void sqlTest() {
         String email = textEmail.getText().toString().trim();
         db.createData(db, email);
     }
-
->>>>>>> Joao
 
     private void temp(){
         Intent goToHome = new Intent(this, Search.class);

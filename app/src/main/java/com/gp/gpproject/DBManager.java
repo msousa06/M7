@@ -1,6 +1,5 @@
 package com.gp.gpproject;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,12 +11,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.firebase.storage.FirebaseStorage;
+//import com.google.firebase.storage.FirebaseStorage;
 
 
 public class DBManager extends SQLiteOpenHelper {
 
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    //private FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "m7database.db";
     private static final String DATABASE_PATH = "database/";
@@ -80,12 +79,106 @@ public class DBManager extends SQLiteOpenHelper {
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
     }
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+public class RegistrationActivity extends Activity {
+
+    private EditText txtEmailAddress;
+    private EditText txtPassword;
+    private FirebaseAuth firebaseAuth;
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        txtEmailAddress = (EditText) findViewById(R.id.textEmail);
+        txtPassword = (EditText) findViewById(R.id.textPassword);
+        firebaseAuth = FirebaseAuth.getInstance();
+    }
+    public void btnRegistrationUser_Click(View v) {
 
+        final ProgressDialog progressDialog = ProgressDialog.show(RegistrationActivity.this, "Please wait...", "Processing...", true);
+        (firebaseAuth.createUserWithEmailAndPassword(txtEmailAddress.getText().toString(), txtPassword.getText().toString()))
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+
+                        if (task.isSuccessful()) {
+                            Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
+                            startActivity(i);
+                        }
+                        else
+                        {
+                            Log.e("ERROR", task.getException().toString());
+                            Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
+
+    /*
+        db.execSQL("CREATE TABLE parent (parentID INTEGER PRIMARY KEY AUTOINCREMENT , name TEXT, email TEXT);");
+    *
+    *  Cada operação do (C)RUD var ter a seguinte ideologia:
+    *
+    public long addParent(DBManager dbManager, String name, String email) {
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("email", email);
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+        long result = db.insert("parent", null, values);
+        db.close();
+        return result;
+    }
+
+
+    Cada operação do C(R)UD var ter a seguinte ideologia:
+
+    public Cursor getParent(DBManager dbManager, String email) {
+
+        SQLiteDatabase db = dbManager.getReadableDatabase();
+        String query = "SELECT parentID FROM parent WHERE email = '" + email + "';";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            return null;
+        } else {
+            return cursor;
+        }
+    }
+
+    *
+    * */
 
     public void insert_funcionario(String nome, String apelido, String telefone, String email, int categoria){
         ContentValues contentValues = new ContentValues();

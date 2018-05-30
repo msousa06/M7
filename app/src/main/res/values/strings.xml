@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">Vigilancias Ips</string>
     <string name="title_activity_listar_docentes">ListarDocentesActivity</string>
     <string name="dialog_message">Eliminar Docente</string>
