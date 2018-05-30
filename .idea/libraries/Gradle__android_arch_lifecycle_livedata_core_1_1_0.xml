@@ -2,12 +2,17 @@
   <library name="Gradle: android.arch.lifecycle:livedata-core-1.1.0">
     <CLASSES>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/3ad2c8f0405dfe993c6dff3da40a06b6/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/3ad2c8f0405dfe993c6dff3da40a06b6/jars/classes.jar!/" />
 =======
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/f687d9dcc32fbcc3dc62e7e7e862e12f/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/f687d9dcc32fbcc3dc62e7e7e862e12f/res" />
 >>>>>>> Joao
+=======
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/055e13402bc35f59ec49ad1f0f541eb4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/055e13402bc35f59ec49ad1f0f541eb4/res" />
+>>>>>>> master
     </CLASSES>
     <JAVADOC />
     <SOURCES>
