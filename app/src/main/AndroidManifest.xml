@@ -15,7 +15,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-<<<<<<< HEAD
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -44,8 +43,5 @@
         <activity android:name=".EditarVigilanciaActivity" />
         <activity android:name=".RegisterActivity" />
     </application>
-=======
-        android:theme="@style/AppTheme"></application>
->>>>>>> master
 
 </manifest>
