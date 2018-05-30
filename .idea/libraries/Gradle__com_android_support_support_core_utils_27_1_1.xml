@@ -1,8 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:support-core-utils-27.1.1">
     <CLASSES>
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/b1ff1a47f822b3158d0d8126197d9af9/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/b1ff1a47f822b3158d0d8126197d9af9/jars/classes.jar!/" />
+=======
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/dcca0252b845ed0ddd66bba3d37bd97b/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/dcca0252b845ed0ddd66bba3d37bd97b/jars/classes.jar!/" />
+>>>>>>> Joao
+=======
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/b0901b123a532c98c0ebe0566ffc8167/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/b0901b123a532c98c0ebe0566ffc8167/res" />
+>>>>>>> master
     </CLASSES>
     <JAVADOC />
     <SOURCES>
