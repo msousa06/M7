@@ -18,17 +18,14 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnListaDocentes = (Button) findViewById(R.id.btnListaDocentes);
         btnListaDocentes.setOnClickListener(new View.OnClickListener(){
-<<<<<<< HEAD
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this,ListarDocentesActivity.class));
             }
-=======
            @Override
            public void onClick(View v){
                startActivity(new Intent(MainActivity.this,ListarDocentesActivity.class));
            }
->>>>>>> Joao
         });
 
         Button btnAddCategoria = (Button) findViewById(R.id.btnAddCategoria);
