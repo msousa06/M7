@@ -44,6 +44,7 @@ public class RegistrationActivity extends Activity {
         txtPassword = (EditText) findViewById(R.id.textPassword);
         firebaseAuth = FirebaseAuth.getInstance();
     }
+
     public void btnRegistrationUser_Click(View v) {
 
         final ProgressDialog progressDialog = ProgressDialog.show(RegistrationActivity.this, "Please wait...", "Processing...", true);
