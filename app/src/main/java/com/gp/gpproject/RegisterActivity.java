@@ -1,24 +1,27 @@
 package com.gp.gpproject;
 
+<<<<<<< HEAD
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+=======
+>>>>>>> Joao
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.FirebaseAuth;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /*
     private Button buttonRegister;
     private EditText textEmail, textPassword;
     private TextView textSignIn;
@@ -46,24 +49,36 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         buttonRegister.setOnClickListener(this);
         textSignIn.setOnClickListener(this);
     }
-
+    */
     @Override
     public void onClick(View v) {
+        /*
         if(v.equals(textSignIn)) {
             //open login activity
             Toast.makeText(this, "Sign in", Toast.LENGTH_SHORT).show();
         }
         if(v.equals(buttonRegister)) {
-            registerUser();
+            //registerUser();
+            temp();
         }
+        */
     }
 
+<<<<<<< HEAD
+=======
+    /*
     public void sqlTest() {
         String email = textEmail.getText().toString().trim();
         db.createData(db, email);
     }
 
+>>>>>>> Joao
 
+    private void temp(){
+        Intent goToHome = new Intent(this, Search.class);
+        startActivity(goToHome);
+        finish();
+    }
 
     private void registerUser() {
         String email = textEmail.getText().toString().trim();
@@ -96,4 +111,5 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 });
 
     }
+    */
 }
