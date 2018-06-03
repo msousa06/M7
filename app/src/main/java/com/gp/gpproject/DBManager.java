@@ -23,7 +23,7 @@ public class DBManager extends SQLiteOpenHelper {
 
 
 
-    public DBManager(Context context, String s, Object o, int i) {
+    public DBManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -59,7 +59,8 @@ public class DBManager extends SQLiteOpenHelper {
                 " FOREIGN KEY (id_disciplina) REFERENCES disciplinas (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " data TEXT NOT NULL, hora TEXT NOT NULL, id_vigilante INTEGER NOT NULL, id_disciplina INTEGER NOT NULL, pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_vigilante) " +
+                " data TEXT NOT NULL, hora TEXT NOT NULL, id_vigilante INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
+                " pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_vigilante) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
@@ -70,7 +71,8 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " data INTEGER NOT NULL, id_ruc INTEGER NOT NULL,pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
+                " data TEXT NOT NULL, hora TEXT NOT NULL, id_vigilante INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
+                "pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_vigilante) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
@@ -162,22 +164,13 @@ public class DBManager extends SQLiteOpenHelper {
 
     public void list_all_docentes(TextView textView){
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM docentes",null);
-        textView.setText("");
-        textView.append(Html.fromHtml("<b>" + "ID: \t\tNome: \t\tPontos:"));
-        textView.append(Html.fromHtml("<b><br/>" + "Categoria: \t\tDepartamento: "));
-        while (cursor.moveToNext()){
-            textView.append("\n\n" + cursor.getString(0) + ",\t\t" + getNomeFuncionario(cursor.getString(0)) + " " + getApelidoFuncionario(cursor.getString(0)) + ",\t\t"+ cursor.getString(1) + ",\n" + getNomeCategoria(getCatFunc(cursor.getString(0))) + ",\t\t" + getNomeDepartamento(cursor.getString(2)));
-        }
+        insert_docentes_result_in_TextView(textView, cursor);
     }
+
 
     public void list_all_Vigilancias(TextView textView){
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM vigilancias",null);
-        textView.setText("");
-        textView.append(Html.fromHtml("<b>" + "ID: \t\tSala: \t\tData:"));
-        textView.append(Html.fromHtml("<b><br/>" + "Hora: \t\tDisciplina: \t\tVigilante: "));
-        while (cursor.moveToNext()){
-            textView.append("\n\n" + cursor.getString(0) + ",\t\t" + cursor.getString(1) + ",\t\t" + cursor.getString(2) + ",\n" + cursor.getString(3) + ",\t\t" + getNomeDisciplina(cursor.getString(5)) + ",\t\t" + getNomeFuncionario(cursor.getString(4)) + " " + getApelidoFuncionario(cursor.getString(4)));
-        }
+        insert_vigilancias_result_in_TextView(textView, cursor);
     }
 
     public int getIdFuncionario(String email){
@@ -189,7 +182,6 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return id;
     }
-
 
     public String getNomeFuncionario(String id){
         String nome = "";
@@ -529,5 +521,182 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("id_disciplina", getIdFromName("disciplinas",disciplina));
         contentValues.put("pontuacao_vigilancia", pontuacao);
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
+    }
+
+    public void list_search_docentes(TextView textView, String nome, String departamento, String categoria, String pontos, String modificador){
+        String whereClause = "";
+
+        String whereName =(!nome.isEmpty())? " nome like '%" + nome + "%' OR apelido like '%" + nome + "%'" : "";
+        String whereDep =(!departamento.isEmpty())? " id_departamento = " + getIdDepartamento(departamento) : "";
+        String whereCat =(!categoria.isEmpty())? " id_categoria = " + getIdCategoria(categoria) : "";
+        String wherePts = (!pontos.isEmpty() && !modificador.isEmpty()) ? " pontos " + modificador + " " + pontos : "";
+
+        whereClause += whereName;
+        whereClause += (whereClause.isEmpty())? whereDep : (whereDep.isEmpty())? "" : " AND " + whereDep;
+        whereClause += (whereClause.isEmpty())? whereCat : (whereCat.isEmpty())? "" : " AND " + whereCat;
+        whereClause += (whereClause.isEmpty())? wherePts : (wherePts.isEmpty())? "" : " AND " + wherePts;
+
+        String sqlQuery = "SELECT d.id, d.pontos, d.id_departamento FROM  docentes d, funcionarios ";
+        sqlQuery += (!whereClause.isEmpty())? " WHERE " + whereClause : "";
+
+        Cursor cursor = this.getReadableDatabase().rawQuery(sqlQuery,null);
+        insert_docentes_result_in_TextView(textView, cursor);
+    }
+
+    public void list_search_vigilancias(TextView textView, String sala, String data, String hora, String ruc, String disciplina){
+        String whereClause = "";
+        int idruc =  getIdRucFromEmail(ruc);
+        int iddis =  getIdDisciplinaFromNome(disciplina);
+
+        String whereSala =(!sala.isEmpty())? " sala like '%" + sala + "%'" : "";
+        String whereData =(!data.isEmpty())? " data like '" + data + "'" : "";
+        String whereHora =(!hora.isEmpty())? " hora like '" + hora + "'": "";
+        String whereRuc = (!ruc.isEmpty()) ? ((idruc == -1)? " id_vigilante = " + idruc:"") : "";
+        String whereDisc = (!disciplina.isEmpty()) ? ((iddis == -1)? " id_disciplina = " + iddis : "") : "";
+
+        whereClause += whereSala;
+        whereClause += (whereClause.isEmpty())? whereData : (whereData.isEmpty())? "" : " AND " + whereData;
+        whereClause += (whereClause.isEmpty())? whereHora : (whereHora.isEmpty())? "" : " AND " + whereHora;
+        whereClause += (whereClause.isEmpty())? whereRuc : (whereRuc.isEmpty())? "" : " AND " + whereRuc;
+        whereClause += (whereClause.isEmpty())? whereDisc : (whereDisc.isEmpty())? "" : " AND " + whereDisc;
+
+        String sqlQuery = "SELECT * FROM vigilancias";
+        sqlQuery += (!whereClause.isEmpty())? " WHERE " + whereClause : "";
+
+        Cursor cursor = this.getReadableDatabase().rawQuery(sqlQuery,null);
+        insert_vigilancias_result_in_TextView(textView, cursor);
+    }
+
+    public List<String> getAllRucs(){
+        List<Integer> rucs = new ArrayList<>();
+        List<String> mails = new ArrayList<>();
+
+        String selectQuery = "SELECT id_ruc FROM disciplinas";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                rucs.add(cursor.getInt(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        String selectRUCSQuery = "SELECT email from funcionarios WHERE id = ";
+        for (int ruc : rucs) {
+            Cursor cursor2 = db.rawQuery(selectRUCSQuery + ruc, null);
+            if (cursor2.moveToFirst()) {
+                mails.add(cursor2.getString(0));
+            }
+            cursor2.close();
+        }
+        db.close();
+
+        return mails;
+    }
+
+    private void pesquisa_vigilancia_helper(TextView textView, String docenteID, boolean isHistorico) {
+        String historico = (isHistorico)? "_history" : "";
+        List<Integer> ids = getAllVigilanciasFromDocente(Integer.parseInt(docenteID), historico);
+        List<Integer> vigilancias = new ArrayList<>();
+        List<String> salas = new ArrayList<>();
+        List<String> datas = new ArrayList<>();
+        List<String> horas = new ArrayList<>();
+        List<Integer> disciplinas = new ArrayList<>();
+        for(int id_vigilancia : ids) {
+            Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM vigilancias" + historico + " WHERE id = " + id_vigilancia,null);
+            if(cursor.moveToFirst()) {
+                do {
+                    vigilancias.add(cursor.getInt(0));
+                    salas.add(cursor.getString(1));
+                    datas.add(cursor.getString(2));
+                    horas.add(cursor.getString(3));
+                    disciplinas.add(cursor.getInt(5));
+                } while (cursor.moveToNext());
+            }
+        }
+
+
+        textView.setText("");
+        textView.append(Html.fromHtml("<b>" + "ID: \t\tSala: \t\tData:"));
+        textView.append(Html.fromHtml("<b><br/>" + "Hora: \t\tDisciplina: "));
+        for(int i = 0; i < vigilancias.size(); i++) {
+            textView.append("\n\n" + vigilancias.get(i) + ",\t\t" +
+                    salas.get(i) + ",\t\t" +
+                    datas.get(i) + ",\n" +
+                    horas.get(i) + ",\t\t" +
+                    getNomeDisciplina("" + disciplinas.get(i)));
+        }
+    }
+
+    public void list_historico_vigilancias_um_docente(TextView textView, String docenteID) {
+        pesquisa_vigilancia_helper(textView, docenteID, true);
+    }
+
+    public void list_vigilancias_um_docente(TextView textView, String docenteID){
+        pesquisa_vigilancia_helper(textView, docenteID, false);
+    }
+
+    private List<Integer>  getAllVigilanciasFromDocente(int id, String historico) {
+        List<Integer> ids = new ArrayList<>();
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT DISTINCT id FROM docente_vigilancia" + historico + " WHERE id_docente = " + id,null);
+        if(cursor.moveToFirst()) {
+            do {
+                ids.add(cursor.getInt(0));
+            } while (cursor.moveToNext());
+        }
+        return ids;
+    }
+
+    private int getIdRucFromEmail(String email) {
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT id FROM funcionarios WHERE email like '" + email + "'",null);
+        if(cursor.moveToFirst()) {
+            return cursor.getInt(0);
+        }
+        return -1;
+    }
+
+    private int getIdDisciplinaFromNome(String nome) {
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT id FROM disciplinas WHERE nome like '" + nome + "'",null);
+        if(cursor.moveToFirst()) {
+            return cursor.getInt(0);
+        }
+        return -1;
+    }
+
+    private void insert_docentes_result_in_TextView(TextView textView, Cursor cursor) {
+        textView.setText("");
+        textView.append(Html.fromHtml("<b>" + "ID: \t\tNome: \t\tPontos:"));
+        textView.append(Html.fromHtml("<b><br/>" + "Categoria: \t\tDepartamento: "));
+        while (cursor.moveToNext()){
+            textView.append("\n\n" + cursor.getString(0) + ",\t\t" +
+                    getNomeFuncionario(cursor.getString(0)) + " " +
+                    getApelidoFuncionario(cursor.getString(0)) + ",\t\t"+
+                    cursor.getString(1) + ",\n" +
+                    getNomeCategoria(getCatFunc(cursor.getString(0))) +
+                    ",\t\t" + getNomeDepartamento(cursor.getString(2)));
+        }
+    }
+
+    private void insert_vigilancias_result_in_TextView(TextView textView, Cursor cursor) {
+        textView.setText("");
+        textView.append(Html.fromHtml("<b>" + "ID: \t\tSala: \t\tData:"));
+        textView.append(Html.fromHtml("<b><br/>" + "Hora: \t\tDisciplina: \t\tVigilante: "));
+        while (cursor.moveToNext()){
+            textView.append("\n\n" + cursor.getString(0) + ",\t\t" +
+                    cursor.getString(1) + ",\t\t" +
+                    cursor.getString(2) + ",\n" +
+                    cursor.getString(3) + ",\t\t" +
+                    getNomeDisciplina(cursor.getString(5)) + ",\t\t" +
+                    getNomeFuncionario(cursor.getString(4)) + " " +
+                    getApelidoFuncionario(cursor.getString(4)));
+        }
+    }
+
+    public void list_historico_vigilancias(TextView textView) {
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM vigilancias_history",null);
+
+        insert_vigilancias_result_in_TextView(textView, cursor);
     }
 }

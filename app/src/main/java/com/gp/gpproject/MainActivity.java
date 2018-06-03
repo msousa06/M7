@@ -6,10 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.gp.gpproject.Create.AdicionarCategoriaActivity;
+import com.gp.gpproject.Create.AdicionarDepartamentoActivity;
+import com.gp.gpproject.Create.AdicionarDisciplinaActivity;
+import com.gp.gpproject.Read.ListarDocentesActivity;
+import com.gp.gpproject.Read.ListarVigilanciasActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    DBManager db = new DBManager(this,"",null,2);
+    DBManager db = new DBManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,17 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnListaDocentes = (Button) findViewById(R.id.btnListaDocentes);
         btnListaDocentes.setOnClickListener(new View.OnClickListener(){
-<<<<<<< HEAD
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this,ListarDocentesActivity.class));
             }
-=======
-           @Override
-           public void onClick(View v){
-               startActivity(new Intent(MainActivity.this,ListarDocentesActivity.class));
-           }
->>>>>>> Joao
+
         });
 
         Button btnAddCategoria = (Button) findViewById(R.id.btnAddCategoria);
@@ -60,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this,AdicionarDisciplinaActivity.class));
+            }
+        });
+
+        Button btnSearch = (Button) findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(MainActivity.this,SearchMenuActivity.class));
             }
         });
     }
