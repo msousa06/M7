@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,9 +31,24 @@ public class LoginActivity extends AppCompatActivity {
         txtEmailLogin = (EditText) findViewById(R.id.emailtxt);
         txtPwd = (EditText) findViewById(R.id.passwordtxt);
         firebaseAuth = FirebaseAuth.getInstance();
+        Button login = (Button) findViewById(R.id.btn_login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnUserLogin_Click();
+            }
+        });
+
+        TextView register = (TextView) findViewById(R.id.link_signup);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+            }
+        });
     }
 
-    public void btnUserLogin_Click(View v) {
+    public void btnUserLogin_Click() {
         final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Please wait...", "Proccessing...", true);
 
         (firebaseAuth.signInWithEmailAndPassword(txtEmailLogin.getText().toString(), txtPwd.getText().toString()))

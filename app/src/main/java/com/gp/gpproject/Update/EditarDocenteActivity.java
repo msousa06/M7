@@ -1,4 +1,4 @@
-package com.gp.gpproject;
+package com.gp.gpproject.Update;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 
+import com.gp.gpproject.DBManager;
+import com.gp.gpproject.Read.ListarDocentesActivity;
+import com.gp.gpproject.R;
+
 import java.util.List;
 
 public class EditarDocenteActivity extends AppCompatActivity {
@@ -22,7 +26,7 @@ public class EditarDocenteActivity extends AppCompatActivity {
     private EditText fieldemail;
     private Spinner spinnerCat;
     private Spinner spinnerDep;
-    private DBManager bd = new DBManager(this, "", null, 2);
+    private DBManager bd = new DBManager(this);
     private String s;
     private AlertDialog alertDialog;
 

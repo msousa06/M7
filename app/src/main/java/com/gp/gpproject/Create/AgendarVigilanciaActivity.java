@@ -1,8 +1,7 @@
-package com.gp.gpproject;
+package com.gp.gpproject.Create;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,13 +19,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 
+import com.gp.gpproject.DBManager;
+import com.gp.gpproject.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class EditarVigilanciaActivity extends AppCompatActivity {
+public class AgendarVigilanciaActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
     private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TextView mDisplayTime;
@@ -36,40 +39,52 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
     private EditText salatxt;
     private DBManager manager;
     private AlertDialog alertDialog;
-    private String s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editar_vigilancia);
-
+        setContentView(R.layout.activity_agendar_vigilancia);
         mDisplayDate = (TextView) findViewById(R.id.tvDate);
         mDisplayTime = (TextView) findViewById(R.id.tvTime);
         spinnerUC = (Spinner) findViewById(R.id.spinnerUc);
         spinnerVig = (Spinner) findViewById(R.id.spinnerVig);
         spinnerPontuacao = (Spinner) findViewById(R.id.spinnerPontuacao);
         salatxt = (EditText) findViewById(R.id.salatxt);
-        manager = new DBManager(this, "", null, 2);
-        s = getIntent().getStringExtra("EXTRA_VIGILANCIA_ID");
+        manager = new DBManager(this);
 
-        addSpinnerPontuacao();
-        addSpinnerUC();
-        addSpinnerVig();
         setDate();
         setTime();
+        addSpinnerUC();
+        addSpinnerVigilante();
+        addSpinnerPontuacao();
 
         ImageView confirmbtn = (ImageView) findViewById(R.id.confirmbtn);
         confirmbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    manager.updateVigilancia(s, salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), Integer.parseInt(spinnerPontuacao.getSelectedItem().toString()));
-                    startActivity(new Intent(EditarVigilanciaActivity.this, ListarVigilanciasActivity.class));
-                    finish();
-                } catch (Exception e) {
-                    alertDialog = new AlertDialog.Builder(EditarVigilanciaActivity.this).create();
+                if (!salatxt.getText().toString().equalsIgnoreCase("")) {
+                    if (!mDisplayDate.getText().toString().equalsIgnoreCase("")) {
+                        if (!mDisplayTime.getText().toString().equalsIgnoreCase("")) {
+                            manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
+                            finish();
+                                manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
+                                finish();
+                        } else {
+                            alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
+                            alertDialog.setTitle("Erro");
+                            alertDialog.setMessage("Insira uma hora válida!");
+                            alertDialog.show();
+                        }
+                    } else {
+                        alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
+                        alertDialog.setTitle("Erro");
+                        alertDialog.setMessage("Insira uma data válida!");
+                        alertDialog.show();
+                    }
+                } else {
+                    alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
                     alertDialog.setTitle("Erro");
-                    alertDialog.setMessage("Vigilância já existente!");
+                    alertDialog.setMessage("Insira uma sala!");
                     alertDialog.show();
                 }
             }
@@ -79,69 +94,9 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EditarVigilanciaActivity.this, ListarVigilanciasActivity.class));
                 finish();
             }
         });
-
-        populateFields();
-    }
-
-    public void addSpinnerUC() {
-        spinnerUC.setPrompt("Select an item");
-
-        List<String> disciplinas = manager.getAllDisciplinas();
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, disciplinas);
-
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinnerUC.setAdapter(dataAdapter);
-    }
-
-    public void addSpinnerVig() {
-        spinnerVig.setPrompt("Select an item");
-
-        List<String> vigilantes = manager.getAllDocentes();
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vigilantes);
-
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinnerVig.setAdapter(dataAdapter);
-    }
-
-    public void addSpinnerPontuacao() {
-        ArrayList<Integer> items = new ArrayList<Integer>();
-        for (int i = 1; i <= 10; i++) {
-            items.add(i);
-        }
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, items);
-        spinnerPontuacao.setAdapter(adapter);
-    }
-
-    public void populateFields() {
-        String ucSelected = "" + manager.getNomeDisciplina(manager.getIdDisciplina(s));
-        spinnerUC.setSelection(getIndex(spinnerUC, ucSelected));
-
-        String vigSelected = "" + manager.getEmail(manager.getIdVigilante(s));
-        spinnerVig.setSelection(getIndex(spinnerVig, vigSelected));
-
-        String pontuacaoSelected = "" + manager.getPontuacao(s);
-        spinnerPontuacao.setSelection(getIndex(spinnerPontuacao, pontuacaoSelected));
-
-        mDisplayDate.setText(manager.getData(s));
-        mDisplayTime.setText(manager.getHora(s));
-        salatxt.setText(manager.getSala(s));
-    }
-
-    private int getIndex(Spinner spinner, String myString) {
-        for (int i = 0; i < spinner.getCount(); i++) {
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
-                return i;
-            }
-        }
-        return 0;
     }
 
     public void setTime() {
@@ -152,7 +107,7 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(EditarVigilanciaActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(AgendarVigilanciaActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         mDisplayTime.setText(selectedHour + ":" + selectedMinute);
@@ -174,7 +129,7 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        EditarVigilanciaActivity.this,
+                        AgendarVigilanciaActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year, month, day);
@@ -193,5 +148,40 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
                 mDisplayDate.setText(date);
             }
         };
+    }
+
+    public void addSpinnerUC() {
+        spinnerUC.setPrompt("Select an item");
+        DBManager bd = new DBManager(this);
+
+        List<String> disciplinas = bd.getAllDisciplinas();
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, disciplinas);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerUC.setAdapter(dataAdapter);
+    }
+
+    public void addSpinnerVigilante() {
+        spinnerVig.setPrompt("Select an item");
+        DBManager bd = new DBManager(this);
+
+        List<String> docentes = bd.getAllDocentes();
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, docentes);
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerVig.setAdapter(dataAdapter);
+    }
+
+    public void addSpinnerPontuacao() {
+        ArrayList<Integer> items = new ArrayList<Integer>();
+        for (int i = 1; i <= 10; i++) {
+            items.add(i);
+        }
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, items);
+        spinnerPontuacao.setAdapter(adapter);
     }
 }
