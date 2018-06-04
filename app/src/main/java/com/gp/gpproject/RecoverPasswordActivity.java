@@ -23,7 +23,7 @@ public class RecoverPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recover_pass);
+        setContentView(R.layout.activity_password_recover);
         txtEmailrecover = (EditText) findViewById(R.id.emailtxt);
         firebaseAuth = FirebaseAuth.getInstance();
         recover = (Button) findViewById(R.id.btn_recover);
