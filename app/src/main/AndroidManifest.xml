@@ -43,6 +43,7 @@
         <activity android:name=".EditarVigilanciaActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".RecoverPasswordActivity" />
     </application>
 
 
