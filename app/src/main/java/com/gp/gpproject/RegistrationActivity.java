@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class RegistrationActivity extends Activity {
     private EditText txtEmailAddress;
     private EditText txtPassword;
     private FirebaseAuth firebaseAuth;
+    private Button btnRegis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,28 +45,27 @@ public class RegistrationActivity extends Activity {
         txtEmailAddress = (EditText) findViewById(R.id.textEmail);
         txtPassword = (EditText) findViewById(R.id.textPassword);
         firebaseAuth = FirebaseAuth.getInstance();
-    }
+        btnRegis = (Button) findViewById(R.id.buttonRegister);
 
-    public void btnRegistrationUser_Click(View v) {
 
-        final ProgressDialog progressDialog = ProgressDialog.show(RegistrationActivity.this, "Please wait...", "Processing...", true);
-        (firebaseAuth.createUserWithEmailAndPassword(txtEmailAddress.getText().toString(), txtPassword.getText().toString()))
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
-                            startActivity(i);
-                        }
-                        else
-                        {
-                            Log.e("ERROR", task.getException().toString());
-                            Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+        btnRegis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.createUserWithEmailAndPassword(txtEmailAddress.getText().toString(), txtPassword.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
+                                    Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                    startActivity(i);
+                                } else {
+                                    Log.e("ERROR", task.getException().toString());
+                                    Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            }
+        });
     }
 }

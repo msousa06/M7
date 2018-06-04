@@ -41,7 +41,7 @@
         <activity android:name=".AdicionarDisciplinaActivity" />
         <activity android:name=".EliminarVigilanciaActivity" />
         <activity android:name=".EditarVigilanciaActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
     </application>
 
