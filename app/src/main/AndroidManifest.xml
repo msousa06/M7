@@ -42,7 +42,8 @@
         <activity android:name=".EliminarVigilanciaActivity" />
         <activity android:name=".EditarVigilanciaActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity" />
     </application>
-        android:theme="@style/AppTheme"></application>
+
 
 </manifest>
