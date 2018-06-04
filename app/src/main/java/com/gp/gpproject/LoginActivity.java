@@ -1,6 +1,5 @@
 package com.gp.gpproject;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
@@ -23,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtPwd;
     private FirebaseAuth firebaseAuth;
     private Button btnlogin;
+    private Button resetpass;
+    private Button createUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         txtPwd = (EditText) findViewById(R.id.passwordtxt);
         firebaseAuth = FirebaseAuth.getInstance();
         btnlogin = (Button) findViewById(R.id.btn_login);
+        resetpass = (Button) findViewById(R.id.link_resetPass);
+        createUser = (Button) findViewById(R.id.link_signup);
 
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +56,21 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
+            }
+        });
+
+
+        resetpass.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(LoginActivity.this,RecoverPasswordActivity.class));
+            }
+        });
+
+        createUser.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
             }
         });
     }
