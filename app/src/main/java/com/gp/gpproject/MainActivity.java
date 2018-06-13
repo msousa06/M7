@@ -6,22 +6,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     DBManager db = new DBManager(this,"",null,2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Button logOut = (Button) findViewById(R.id.logOutBtn);
+        logOut.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
 
         Button btnListaDocentes = (Button) findViewById(R.id.btnListaDocentes);
         btnListaDocentes.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View v){
+               String idListaDocentes = "";
+               String nameListaDocentes = "";
+               Bundle bundleListaDocentes = new Bundle();
+               bundleListaDocentes.putString(FirebaseAnalytics.Param.ITEM_ID, idListaDocentes);
+               bundleListaDocentes.putString(FirebaseAnalytics.Param.ITEM_NAME, nameListaDocentes);
+               bundleListaDocentes.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+               mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleListaDocentes);
                startActivity(new Intent(MainActivity.this,ListarDocentesActivity.class));
            }
         });
@@ -30,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
         btnAddCategoria.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                String idAddCategoria = "";
+                String nameAddCategoria = "";
+                Bundle bundleAddCategoria = new Bundle();
+                bundleAddCategoria.putString(FirebaseAnalytics.Param.ITEM_ID, idAddCategoria);
+                bundleAddCategoria.putString(FirebaseAnalytics.Param.ITEM_NAME, nameAddCategoria);
+                bundleAddCategoria.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleAddCategoria);
                 startActivity(new Intent(MainActivity.this,AdicionarCategoriaActivity.class));
             }
         });
@@ -38,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
         btnAddDepartamento.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                String idAddDepartamento = "";
+                String nameAddDepartamento = "";
+                Bundle bundleAddDepartamento = new Bundle();
+                bundleAddDepartamento.putString(FirebaseAnalytics.Param.ITEM_ID, idAddDepartamento);
+                bundleAddDepartamento.putString(FirebaseAnalytics.Param.ITEM_NAME, nameAddDepartamento);
+                bundleAddDepartamento.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleAddDepartamento);
                 startActivity(new Intent(MainActivity.this,AdicionarDepartamentoActivity.class));
             }
         });
@@ -46,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
         btnListaVig.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                String idListaVig = "";
+                String nameListaVig = "";
+                Bundle bundleListaVig = new Bundle();
+                bundleListaVig.putString(FirebaseAnalytics.Param.ITEM_ID, idListaVig);
+                bundleListaVig.putString(FirebaseAnalytics.Param.ITEM_NAME, nameListaVig);
+                bundleListaVig.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleListaVig);
                 startActivity(new Intent(MainActivity.this,ListarVigilanciasActivity.class));
             }
         });
@@ -54,16 +94,14 @@ public class MainActivity extends AppCompatActivity {
         btnAddDisciplina.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                String idAddDisciplina = "";
+                String nameAddDisciplina = "";
+                Bundle bundleAddDisciplina = new Bundle();
+                bundleAddDisciplina.putString(FirebaseAnalytics.Param.ITEM_ID, idAddDisciplina);
+                bundleAddDisciplina.putString(FirebaseAnalytics.Param.ITEM_NAME, nameAddDisciplina);
+                bundleAddDisciplina.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleAddDisciplina);
                 startActivity(new Intent(MainActivity.this,AdicionarDisciplinaActivity.class));
-            }
-        });
-
-        Button logOut = (Button) findViewById(R.id.logOutBtn);
-        logOut.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
             }
         });
     }
