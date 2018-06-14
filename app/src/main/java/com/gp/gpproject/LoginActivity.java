@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -24,11 +25,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnlogin;
     private Button resetpass;
     private Button createUser;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         txtEmailLogin = (EditText) findViewById(R.id.emailtxt);
         txtPwd = (EditText) findViewById(R.id.passwordtxt);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -49,6 +52,13 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     i.putExtra("Email", firebaseAuth.getCurrentUser().getEmail());
+                                    String idLogin = "";
+                                    String nameLogin = "";
+                                    Bundle bundleLogin = new Bundle();
+                                    bundleLogin.putString(FirebaseAnalytics.Param.ITEM_ID, idLogin);
+                                    bundleLogin.putString(FirebaseAnalytics.Param.ITEM_NAME, nameLogin);
+                                    bundleLogin.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleLogin);
                                     startActivity(i);
                                 } else {
                                     Log.e("ERROR", task.getException().toString());
@@ -70,6 +80,13 @@ public class LoginActivity extends AppCompatActivity {
         createUser.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                String idRegis = "";
+                String nameRegis = "";
+                Bundle bundleRegis = new Bundle();
+                bundleRegis.putString(FirebaseAnalytics.Param.ITEM_ID, idRegis);
+                bundleRegis.putString(FirebaseAnalytics.Param.ITEM_NAME, nameRegis);
+                bundleRegis.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleRegis);
                 startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
             }
         });
