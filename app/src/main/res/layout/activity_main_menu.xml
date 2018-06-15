@@ -155,5 +155,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSemNome" />
 
+    <Button
+        android:id="@+id/logOutBtn"
+        android:layout_width="73dp"
+        android:layout_height="35dp"
+        android:text="Log out"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.948"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.287" />
+
 
 </android.support.constraint.ConstraintLayout>

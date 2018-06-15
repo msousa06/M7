@@ -79,30 +79,71 @@ public class DBManager extends SQLiteOpenHelper {
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
     }
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+public class RegistrationActivity extends Activity {
+
+    private EditText txtEmailAddress;
+    private EditText txtPassword;
+    private FirebaseAuth firebaseAuth;
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS departamentos");
-        db.execSQL("DROP TABLE IF EXISTS categorias");
-        db.execSQL("DROP TABLE IF EXISTS funcionarios");
-        db.execSQL("DROP TABLE IF EXISTS docentes");
-        db.execSQL("DROP TABLE IF EXISTS disciplinas");
-        db.execSQL("DROP TABLE IF EXISTS docente_disciplina");
-        db.execSQL("DROP TABLE IF EXISTS vigilancias");
-        db.execSQL("DROP TABLE IF EXISTS docente_vigilancia");
-        db.execSQL("DROP TABLE IF EXISTS vigilancias_history");
-        db.execSQL("DROP TABLE IF EXISTS docente_vigilancia_history");
-        onCreate(db);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        txtEmailAddress = (EditText) findViewById(R.id.textEmail);
+        txtPassword = (EditText) findViewById(R.id.textPassword);
+        firebaseAuth = FirebaseAuth.getInstance();
     }
+    public void btnRegistrationUser_Click(View v) {
 
+        final ProgressDialog progressDialog = ProgressDialog.show(RegistrationActivity.this, "Please wait...", "Processing...", true);
+        (firebaseAuth.createUserWithEmailAndPassword(txtEmailAddress.getText().toString(), txtPassword.getText().toString()))
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
 
-    public long createData(DBManager dbManager, String nome) {
-        ContentValues values = new ContentValues();
-        values.put("nome", nome);
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-        long result = db.insert("categorias", null, values);
-        db.close();
-        return result;
+                        if (task.isSuccessful()) {
+                            Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
+                            startActivity(i);
+                        }
+                        else
+                        {
+                            Log.e("ERROR", task.getException().toString());
+                            Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
 
