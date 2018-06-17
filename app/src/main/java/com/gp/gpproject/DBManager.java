@@ -18,13 +18,17 @@ public class DBManager extends SQLiteOpenHelper {
 
     //private FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final int DATABASE_VERSION = 3;
-    private static final String DATABASE_NAME = "m7database.db";
+    public static final String DATABASE_NAME = "m7database.db";
     private static final String DATABASE_PATH = "database/";
 
 
 
     public DBManager(Context context, String s, Object o, int i) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public DBManager(Context context,String nome){
+        super(context, nome, null, DATABASE_VERSION);
     }
 
     @Override
@@ -79,71 +83,20 @@ public class DBManager extends SQLiteOpenHelper {
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
     }
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
-public class RegistrationActivity extends Activity {
-
-    private EditText txtEmailAddress;
-    private EditText txtPassword;
-    private FirebaseAuth firebaseAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        txtEmailAddress = (EditText) findViewById(R.id.textEmail);
-        txtPassword = (EditText) findViewById(R.id.textPassword);
-        firebaseAuth = FirebaseAuth.getInstance();
-    }
-    public void btnRegistrationUser_Click(View v) {
-
-        final ProgressDialog progressDialog = ProgressDialog.show(RegistrationActivity.this, "Please wait...", "Processing...", true);
-        (firebaseAuth.createUserWithEmailAndPassword(txtEmailAddress.getText().toString(), txtPassword.getText().toString()))
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
-                            startActivity(i);
-                        }
-                        else
-                        {
-                            Log.e("ERROR", task.getException().toString());
-                            Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS departamentos");
+        db.execSQL("DROP TABLE IF EXISTS categorias");
+        db.execSQL("DROP TABLE IF EXISTS funcionarios");
+        db.execSQL("DROP TABLE IF EXISTS docentes");
+        db.execSQL("DROP TABLE IF EXISTS disciplinas");
+        db.execSQL("DROP TABLE IF EXISTS docente_disciplina");
+        db.execSQL("DROP TABLE IF EXISTS vigilancias");
+        db.execSQL("DROP TABLE IF EXISTS docente_vigilancia");
+        db.execSQL("DROP TABLE IF EXISTS vigilancias_history");
+        db.execSQL("DROP TABLE IF EXISTS docente_vigilancia_history");
+        onCreate(db);
     }
 
 
@@ -180,17 +133,21 @@ public class RegistrationActivity extends Activity {
     *
     * */
 
-    public void insert_funcionario(String nome, String apelido, String telefone, String email, int categoria){
+    public boolean insert_funcionario(String nome, String apelido, String telefone, String email, int categoria){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome",nome);
         contentValues.put("apelido", apelido);
         contentValues.put("telefone", telefone);
         contentValues.put("email", email);
         contentValues.put("id_categoria", categoria);
-        this.getWritableDatabase().insertOrThrow("funcionarios","",contentValues);
+        if(this.getWritableDatabase().insertOrThrow("funcionarios","",contentValues) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void insert_docente(String departamento, String nome, String apelido, String telefone, String email, String categoria){
+    public boolean insert_docente(String departamento, String nome, String apelido, String telefone, String email, String categoria){
         ContentValues contentValues = new ContentValues();
 
         insert_funcionario(nome, apelido, telefone, email, getIdCategoria(categoria));
@@ -198,7 +155,11 @@ public class RegistrationActivity extends Activity {
 
         contentValues.put("pontos", 0);
         contentValues.put("id_departamento", getIdFromName("departamentos",departamento));
-        this.getWritableDatabase().insertOrThrow("docentes","",contentValues);
+        if(this.getWritableDatabase().insertOrThrow("docentes","",contentValues) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void list_all_docentes(TextView textView){
@@ -272,10 +233,15 @@ public class RegistrationActivity extends Activity {
         return categorias;
     }
 
-    public void insert_categoria(String nome){
+    public boolean insert_categoria(String nome){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome", nome);
-        this.getWritableDatabase().insertOrThrow("categorias","",contentValues);
+
+        if(this.getWritableDatabase().insertOrThrow("categorias","",contentValues) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int getIdCategoria(String nome){
@@ -308,11 +274,16 @@ public class RegistrationActivity extends Activity {
         return cat;
     }
 
-    public void insert_departamento(String nome,String sigla){
+    public boolean insert_departamento(String nome,String sigla){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome", nome);
         contentValues.put("sigla", sigla);
-        this.getWritableDatabase().insertOrThrow("departamentos","",contentValues);
+
+        if(this.getWritableDatabase().insertOrThrow("departamentos","",contentValues) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getIdFromName(String tablename, String name){
@@ -388,6 +359,19 @@ public class RegistrationActivity extends Activity {
     public void deleteAll(String table){
         this.getWritableDatabase().execSQL("delete from " + table);
         this.getWritableDatabase().execSQL("delete from  SQLITE_SEQUENCE  where name = ' " + table + "'");
+    }
+
+    public void deleteAllDB(){
+        deleteAll("departamentos");
+        deleteAll("categorias");
+        deleteAll("funcionarios");
+        deleteAll("docentes");
+        deleteAll("disciplinas");
+        deleteAll("docente_disciplina");
+        deleteAll("vigilancias");
+        deleteAll("docente_vigilancia");
+        deleteAll("vigilancias_history");
+        deleteAll("docente_vigilancia_history");
     }
 
     public boolean idExists(String table, String id){
@@ -472,21 +456,31 @@ public class RegistrationActivity extends Activity {
         return nome;
     }
 
-    public void updateDocente(String id, String departamento, String nome, String apelido, String telefone, String email, String categoria){
+    public boolean updateDocente(String id, String departamento, String nome, String apelido, String telefone, String email, String categoria){
         updateFuncionario(id, nome, apelido, telefone, email, getIdCategoria(categoria));
         ContentValues contentValues = new ContentValues();
         contentValues.put("id_departamento", getIdFromName("departamentos",departamento));
-        this.getWritableDatabase().updateWithOnConflict("docentes", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
+
+        if(this.getWritableDatabase().updateWithOnConflict("docentes", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void updateFuncionario(String id, String nome, String apelido, String telefone, String email, int categoria){
+    public boolean updateFuncionario(String id, String nome, String apelido, String telefone, String email, int categoria){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome",nome);
         contentValues.put("apelido", apelido);
         contentValues.put("telefone", telefone);
         contentValues.put("email", email);
         contentValues.put("id_categoria", categoria);
-        this.getWritableDatabase().updateWithOnConflict("funcionarios", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
+
+        if(this.getWritableDatabase().updateWithOnConflict("funcionarios", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean delete(String tableName, String id){
@@ -541,16 +535,21 @@ public class RegistrationActivity extends Activity {
         return docentes;
     }
 
-    public void insert_disciplina(String nome, String sigla, String departamento, String emailRuc){
+    public boolean insert_disciplina(String nome, String sigla, String departamento, String emailRuc){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome", nome);
         contentValues.put("sigla", sigla);
         contentValues.put("id_departamento", getIdFromName("departamentos", departamento));
         contentValues.put("id_ruc", getIdFuncionario(emailRuc));
-        this.getWritableDatabase().insertOrThrow("disciplinas","",contentValues);
+
+        if(this.getWritableDatabase().insertOrThrow("disciplinas","",contentValues) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao){
+    public boolean insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao){
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
@@ -558,10 +557,15 @@ public class RegistrationActivity extends Activity {
         contentValues.put("id_vigilante", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas", disciplina));
         contentValues.put("pontuacao_vigilancia", Integer.parseInt(pontuacao));
-        this.getWritableDatabase().insertOrThrow("vigilancias","",contentValues);
+
+        if(this.getWritableDatabase().insertOrThrow("vigilancias","",contentValues) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao){
+    public boolean updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao){
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
@@ -569,6 +573,11 @@ public class RegistrationActivity extends Activity {
         contentValues.put("id_vigilante", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas",disciplina));
         contentValues.put("pontuacao_vigilancia", pontuacao);
-        this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
+
+        if(this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK) != -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

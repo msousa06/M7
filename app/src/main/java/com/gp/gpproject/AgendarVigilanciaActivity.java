@@ -92,7 +92,12 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
+                alertDialog.setTitle("Erro");
+                alertDialog.setMessage(mDisplayDate.getText().toString() + mDisplayTime.getText().toString());
+                alertDialog.show();
+
+                //finish();
             }
         });
     }
