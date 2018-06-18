@@ -1,7 +1,9 @@
 package com.gp.gpproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,20 +53,38 @@ public class RegistrationActivity extends Activity {
         btnRegis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuth.createUserWithEmailAndPassword(txtEmailAddress.getText().toString(), txtPassword.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
-                                    Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
-                                    startActivity(i);
-                                } else {
-                                    Log.e("ERROR", task.getException().toString());
-                                    Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+                builder.setMessage("Caro Utilizador\n\nCom a entrada em vigor da nova lei de protecção de dados, necessitamos do seu consentimento, de modo a podermos efectuar o tratamento dos seus dados pessoais.\n\nConsente?")
+                        .setCancelable(false)
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                firebaseAuth.createUserWithEmailAndPassword(txtEmailAddress.getText().toString(), txtPassword.getText().toString())
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
+                                                    Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                                    startActivity(i);
+                                                } else {
+                                                    Log.e("ERROR", task.getException().toString());
+                                                    Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                            }
+                        })
+                        .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
                             }
                         });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                /*
+
+                 */
             }
         });
     }
