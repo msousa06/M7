@@ -14,7 +14,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/back"
-        app:layout_constraintBottom_toTopOf="@+id/btnSemNome"
         app:layout_constraintEnd_toStartOf="@+id/ipsLogoMainMenu"
         app:layout_constraintHorizontal_bias="0.131"
         app:layout_constraintStart_toStartOf="parent"
