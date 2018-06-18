@@ -13,12 +13,13 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:background="#7482C0"
         android:text="Adicionar Departamento"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnListaVig" />
 
@@ -30,31 +31,15 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="#F68123"
         android:text="Adicionar Categoria"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAddDepartamento" />
-
-    <Button
-        android:id="@+id/btnSemNome"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#DB0962"
-        android:text="botao ainda sem nome"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddCategoria" />
 
     <Button
         android:id="@+id/btnListaVig"
@@ -64,12 +49,13 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="#F03126"
         android:text="Lista vigilancias"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnListaDocentes" />
 
@@ -93,9 +79,9 @@
 
 
     <ImageButton
-        android:id="@+id/backbtn"
-        android:layout_width="40dp"
-        android:layout_height="38dp"
+        android:id="@+id/logOFFbtn"
+        android:layout_width="37dp"
+        android:layout_height="34dp"
         android:layout_centerInParent="true"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -145,28 +131,14 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#F68123"
+        android:background="#DB0962"
         android:text="Adicionar Disciplina"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSemNome" />
-
-    <Button
-        android:id="@+id/logOutBtn"
-        android:layout_width="73dp"
-        android:layout_height="35dp"
-        android:text="Log out"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.948"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.287" />
+        tools:layout_editor_absoluteY="445dp" />
 
 
 </android.support.constraint.ConstraintLayout>

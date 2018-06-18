@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        Button logOut = (Button) findViewById(R.id.logOutBtn);
-        logOut.setOnClickListener(new View.OnClickListener(){
+        ImageButton logOFFbtn = (ImageButton) findViewById(R.id.logOFFbtn);
+        logOFFbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 FirebaseAuth.getInstance().signOut();
