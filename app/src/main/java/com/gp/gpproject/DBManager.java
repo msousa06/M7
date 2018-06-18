@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Html;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,9 +65,9 @@ public class DBManager extends SQLiteOpenHelper {
                 " pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_vigilante) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
-
+//CHECK (estado IN ("Pendente, A"))
         db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
-                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
+                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT  DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
                 " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
                 " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
@@ -95,40 +98,6 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS docente_vigilancia_history");
         onCreate(db);
     }
-
-
-    /*
-        db.execSQL("CREATE TABLE parent (parentID INTEGER PRIMARY KEY AUTOINCREMENT , name TEXT, email TEXT);");
-    *
-    *  Cada operação do (C)RUD var ter a seguinte ideologia:
-    *
-    public long addParent(DBManager dbManager, String name, String email) {
-        ContentValues values = new ContentValues();
-        values.put("name", name);
-        values.put("email", email);
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-        long result = db.insert("parent", null, values);
-        db.close();
-        return result;
-    }
-
-
-    Cada operação do C(R)UD var ter a seguinte ideologia:
-
-    public Cursor getParent(DBManager dbManager, String email) {
-
-        SQLiteDatabase db = dbManager.getReadableDatabase();
-        String query = "SELECT parentID FROM parent WHERE email = '" + email + "';";
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.getCount() == 0) {
-            return null;
-        } else {
-            return cursor;
-        }
-    }
-
-    *
-    * */
 
     public void insert_funcionario(String nome, String apelido, String telefone, String email, int categoria){
         ContentValues contentValues = new ContentValues();
@@ -489,7 +458,7 @@ public class DBManager extends SQLiteOpenHelper {
         this.getWritableDatabase().insertOrThrow("disciplinas","",contentValues);
     }
 
-    public void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao){
+    public void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
@@ -497,8 +466,73 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("id_vigilante", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas", disciplina));
         contentValues.put("pontuacao_vigilancia", Integer.parseInt(pontuacao));
-        this.getWritableDatabase().insertOrThrow("vigilancias","",contentValues);
+        this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
+
+        qtdNecessaria += 2;
+        String qtd = "" + qtdNecessaria;
+        String id = getIdDepartamento("" + getIdFuncionario(emailVig));
+        List<Integer> docentes = new ArrayList<>(qtdNecessaria);
+
+        String sqlSearch = "SELECT DISTINCT id, pontos FROM docentes WHERE id_departamento = ? ORDER BY pontos LIMIT ?";
+
+        Cursor c = this.getWritableDatabase().rawQuery(sqlSearch, new String[]{id, qtd});
+        if (c.moveToFirst()) {
+            do {
+                docentes.add(c.getInt(0));
+            } while (c.moveToNext());
+            if (docentes.size() < qtdNecessaria) {
+                String query = "SELECT DISTINCT id, pontos FROM docentes ORDER BY pontos DESC LIMIT ?";
+                qtdNecessaria -= docentes.size();
+                qtd = "" + qtdNecessaria;
+                Cursor cc = this.getWritableDatabase().rawQuery(query, new String[]{qtd});
+                if (cc.moveToFirst()) {
+                    do {
+                        docentes.add(cc.getInt(0));
+                    } while (c.moveToNext());
+                }
+            }
+        }
+
+
+        /*
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
+                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT  DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
+                " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
+                " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
+
+
+*/
+        String sql = "SELECT id FROM vigilancias WHERE sala = ? AND data = ? AND hora = ? AND" +
+                " id_vigilante = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
+        int id_vigilante = -1;
+        Cursor ccc = this.getWritableDatabase().rawQuery(sql, new String[]{
+                sala, data, hora, "" + getIdFuncionario(emailVig),
+                getIdFromName("disciplinas", disciplina), pontuacao});
+        if (ccc.moveToFirst()) {
+            id_vigilante = ccc.getInt(0);
+        }
+
+        Cursor cccc = this.getWritableDatabase().rawQuery(sqlSearch, new String[]{id, qtd});
+        if (c.moveToFirst()) {
+            do {
+                docentes.add(c.getInt(0));
+            } while (c.moveToNext());
+        }
+
+
+        for(int id_docente : docentes) {
+            ContentValues values = new ContentValues();
+            values.put("id_vigilancia", id_vigilante);
+            values.put("id_docente", id_docente);
+            values.put("esteve_presente", 0);
+            values.put("justificacao", "");
+            this.getWritableDatabase().insertOrThrow("docente_vigilancia", "", values);
+        }
+
+        //TODO Falta a notificação
     }
+
 
     public void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao){
         ContentValues contentValues = new ContentValues();
@@ -533,7 +567,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     public void list_search_vigilancias(TextView textView, String sala, String data, String hora, String ruc, String disciplina){
         String whereClause = "";
-        int idruc =  getIdRucFromEmail(ruc);
+        int idruc =  getIdFuncionario(ruc);
         int iddis =  getIdDisciplinaFromNome(disciplina);
 
         String whereSala =(!sala.isEmpty())? " sala like '%" + sala + "%'" : "";
@@ -628,7 +662,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     private List<Integer>  getAllVigilanciasFromDocente(int id, String historico) {
         List<Integer> ids = new ArrayList<>();
-        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT DISTINCT id FROM docente_vigilancia" + historico + " WHERE id_docente = " + id,null);
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT DISTINCT id_vigilancia FROM docente_vigilancia" + historico + " WHERE id_docente = " + id,null);
         if(cursor.moveToFirst()) {
             do {
                 ids.add(cursor.getInt(0));
@@ -637,13 +671,6 @@ public class DBManager extends SQLiteOpenHelper {
         return ids;
     }
 
-    private int getIdRucFromEmail(String email) {
-        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT id FROM funcionarios WHERE email like '" + email + "'",null);
-        if(cursor.moveToFirst()) {
-            return cursor.getInt(0);
-        }
-        return -1;
-    }
 
     private int getIdDisciplinaFromNome(String nome) {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT id FROM disciplinas WHERE nome like '" + nome + "'",null);

@@ -78,6 +78,7 @@ public class RegistrationActivity extends Activity {
         txtEmailAddress = (EditText) findViewById(R.id.textEmail);
         txtPassword = (EditText) findViewById(R.id.textPassword);
         firebaseAuth = FirebaseAuth.getInstance();
+
         TextView login = (TextView) findViewById(R.id.textSignin);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +86,6 @@ public class RegistrationActivity extends Activity {
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
             }
         });
-
 
         TextView register = (TextView) findViewById(R.id.buttonRegister);
         register.setOnClickListener(new View.OnClickListener() {
