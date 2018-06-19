@@ -468,9 +468,31 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("pontuacao_vigilancia", Integer.parseInt(pontuacao));
         this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
 
+        String sql = "SELECT id FROM vigilancias WHERE sala = ? AND data = ? AND hora = ? " +
+                "AND id_vigilante = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
+
+        int idVigilancia= -1;
+        Cursor cursor = this.getWritableDatabase().rawQuery(sql, new String[]{
+                sala,
+                data,
+                hora,
+                String.valueOf(getIdFuncionario(emailVig)),
+                getIdFromName("disciplinas", disciplina),
+                pontuacao
+        });
+        if (cursor.moveToFirst()) {
+            idVigilancia = cursor.getInt(0);
+        }
+
+        if(qtdNecessaria > 0)
+            assignDocenteToVigilancia(qtdNecessaria, getIdFuncionario(emailVig), idVigilancia);
+    }
+
+
+    private void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
         qtdNecessaria += 2;
-        String qtd = "" + qtdNecessaria;
-        String id = getIdDepartamento("" + getIdFuncionario(emailVig));
+        String qtd = String.valueOf(qtdNecessaria);
+        String id = getIdDepartamento(String.valueOf(idFuncionario));
         List<Integer> docentes = new ArrayList<>(qtdNecessaria);
 
         String sqlSearch = "SELECT DISTINCT id, pontos FROM docentes WHERE id_departamento = ? ORDER BY pontos LIMIT ?";
@@ -483,7 +505,7 @@ public class DBManager extends SQLiteOpenHelper {
             if (docentes.size() < qtdNecessaria) {
                 String query = "SELECT DISTINCT id, pontos FROM docentes ORDER BY pontos DESC LIMIT ?";
                 qtdNecessaria -= docentes.size();
-                qtd = "" + qtdNecessaria;
+                qtd = String.valueOf(qtdNecessaria);
                 Cursor cc = this.getWritableDatabase().rawQuery(query, new String[]{qtd});
                 if (cc.moveToFirst()) {
                     do {
@@ -493,37 +515,9 @@ public class DBManager extends SQLiteOpenHelper {
             }
         }
 
-
-        /*
-
-        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
-                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT  DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
-                " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
-                " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
-
-
-*/
-        String sql = "SELECT id FROM vigilancias WHERE sala = ? AND data = ? AND hora = ? AND" +
-                " id_vigilante = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
-        int id_vigilante = -1;
-        Cursor ccc = this.getWritableDatabase().rawQuery(sql, new String[]{
-                sala, data, hora, "" + getIdFuncionario(emailVig),
-                getIdFromName("disciplinas", disciplina), pontuacao});
-        if (ccc.moveToFirst()) {
-            id_vigilante = ccc.getInt(0);
-        }
-
-        Cursor cccc = this.getWritableDatabase().rawQuery(sqlSearch, new String[]{id, qtd});
-        if (c.moveToFirst()) {
-            do {
-                docentes.add(c.getInt(0));
-            } while (c.moveToNext());
-        }
-
-
         for(int id_docente : docentes) {
             ContentValues values = new ContentValues();
-            values.put("id_vigilancia", id_vigilante);
+            values.put("id_vigilancia", idVigilancia);
             values.put("id_docente", id_docente);
             values.put("esteve_presente", 0);
             values.put("justificacao", "");
@@ -533,8 +527,21 @@ public class DBManager extends SQLiteOpenHelper {
         //TODO Falta a notificação
     }
 
+    private void editAssignedDotcenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+        String sql = "SELECT id FROM docente_vigilancia WHERE id_vigilancia = " + idVigilancia;
+        Cursor c = this.getWritableDatabase().rawQuery(sql,null);
 
-    public void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao){
+        if(c.moveToFirst()) {
+            do {
+                this.getWritableDatabase().execSQL("delete from docente_vigilancia where id = ?", new String[] {String.valueOf(idVigilancia)});
+            } while (c.moveToNext());
+        }
+
+        if(qtdNecessaria > 0)
+            assignDocenteToVigilancia(qtdNecessaria, idFuncionario, idVigilancia);
+    }
+
+    public void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
@@ -543,6 +550,8 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("id_disciplina", getIdFromName("disciplinas",disciplina));
         contentValues.put("pontuacao_vigilancia", pontuacao);
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
+
+        editAssignedDotcenteToVigilancia(qtdPretendida, getIdFuncionario(emailVig), Integer.parseInt(id));
     }
 
     public void list_search_docentes(TextView textView, String nome, String departamento, String categoria, String pontos, String modificador){
