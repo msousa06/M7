@@ -20,7 +20,7 @@ import java.util.List;
 public class DBManager extends SQLiteOpenHelper {
 
     //private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "m7database.db";
 
 
@@ -31,21 +31,36 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS role (id INTEGER PRIMARY " +
+                "KEY AUTOINCREMENT, nome TEXT NOT NULL UNIQUE);");
+
         db.execSQL("CREATE TABLE IF NOT EXISTS departamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " nome TEXT NOT NULL UNIQUE, sigla TEXT NOT NULL UNIQUE);");
-
 
         db.execSQL("CREATE TABLE IF NOT EXISTS categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nome " +
                 " TEXT UNIQUE NOT NULL);");
 
 
+
+
+
         db.execSQL("CREATE TABLE IF NOT EXISTS funcionarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome  TEXT NOT NULL, " +
-                " apelido TEXT NOT NULL, telefone TEXT, email TEXT NOT NULL UNIQUE, id_categoria INTEGER, FOREIGN KEY " +
-                " (id_categoria) REFERENCES categorias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
+                " apelido TEXT NOT NULL, telefone TEXT, email TEXT NOT NULL UNIQUE, id_categoria INTEGER, id_role INTEGER," +
+                " FOREIGN KEY (id_categoria) REFERENCES categorias (id) ON DELETE NO ACTION ON UPDATE CASCADE, " +
+                " FOREIGN KEY (id_role) REFERENCES role (id) ON DELETE NO ACTION ON UPDATE CASCADE); ");
+
+
+
+
+
+
+
+
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS docentes (id INTEGER PRIMARY KEY UNIQUE, pontos INTEGER DEFAULT 0, " +
-                " id_departamento INTEGER NOT NULL, FOREIGN KEY (id) REFERENCES funcionarios (id) ON DELETE NO ACTION " +
+                " id_departamento INTEGER NOT NULL, tem_cargo_gestao TINYINT DEFAULT 0, FOREIGN KEY (id) REFERENCES funcionarios (id) ON DELETE NO ACTION " +
                 " ON UPDATE CASCADE, FOREIGN KEY (id_departamento) REFERENCES departamentos (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
@@ -60,21 +75,37 @@ public class DBManager extends SQLiteOpenHelper {
                 " FOREIGN KEY (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, " +
                 " FOREIGN KEY (id_disciplina) REFERENCES disciplinas (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
+
+
+
+
+
+
+
+
+
+
+
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " data TEXT NOT NULL, hora TEXT NOT NULL, id_vigilante INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
-                " pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_vigilante) " +
+                " data TEXT NOT NULL, hora TEXT NOT NULL, id_ruc INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
+                " pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
-//CHECK (estado IN ("Pendente, A"))
-        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
-                " INTEGER NOT NULL,id_docente INTEGER NOT NULL, esteve_presente TINYINT  DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
-                " (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) " +
-                " REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia  (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, id_vigilancia " +
+                "  INTEGER NOT NULL,id_docente INTEGER NOT NULL, estado TEXT CHECK (estado IN ('Pendente', 'Aceite', 'Recusado'))" +
+                " DEFAULT 'Pendente' NOT NULL, justificacao TEXT, FOREIGN KEY (id_docente) REFERENCES docentes (id) ON DELETE NO " +
+                " ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE" +
+                " CASCADE);");
+
+
+
+
 
 
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
-                " data TEXT NOT NULL, hora TEXT NOT NULL, id_vigilante INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
-                "pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_vigilante) " +
+                " data TEXT NOT NULL, hora TEXT NOT NULL, id_ruc INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
+                "pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
 
@@ -320,12 +351,12 @@ public class DBManager extends SQLiteOpenHelper {
         return nome;
     }
 
-    public String getIdVigilante(String id){
+    public String getIdRuc(String id){
         String idaux = "";
-        String query = "SELECT id_vigilante FROM vigilancias WHERE id = ?";
+        String query = "SELECT id_ruc FROM vigilancias WHERE id = ?";
         Cursor c = this.getWritableDatabase().rawQuery(query, new String[] {id});
         if(c.moveToFirst()){
-            idaux = "" + c.getInt(c.getColumnIndex("id_vigilante"));
+            idaux = "" + c.getInt(c.getColumnIndex("id_ruc"));
         }
         return idaux;
     }
@@ -463,13 +494,13 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("sala", sala);
         contentValues.put("data", data);
         contentValues.put("hora", hora);
-        contentValues.put("id_vigilante", getIdFuncionario(emailVig));
+        contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas", disciplina));
         contentValues.put("pontuacao_vigilancia", Integer.parseInt(pontuacao));
         this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
 
         String sql = "SELECT id FROM vigilancias WHERE sala = ? AND data = ? AND hora = ? " +
-                "AND id_vigilante = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
+                "AND id_ruc = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
 
         int idVigilancia= -1;
         Cursor cursor = this.getWritableDatabase().rawQuery(sql, new String[]{
@@ -546,7 +577,7 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("sala", sala);
         contentValues.put("data", data);
         contentValues.put("hora", hora);
-        contentValues.put("id_vigilante", getIdFuncionario(emailVig));
+        contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas",disciplina));
         contentValues.put("pontuacao_vigilancia", pontuacao);
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
@@ -582,7 +613,7 @@ public class DBManager extends SQLiteOpenHelper {
         String whereSala =(!sala.isEmpty())? " sala like '%" + sala + "%'" : "";
         String whereData =(!data.isEmpty())? " data like '" + data + "'" : "";
         String whereHora =(!hora.isEmpty())? " hora like '" + hora + "'": "";
-        String whereRuc = (!ruc.isEmpty()) ? ((idruc == -1)? " id_vigilante = " + idruc:"") : "";
+        String whereRuc = (!ruc.isEmpty()) ? ((idruc == -1)? " id_ruc = " + idruc:"") : "";
         String whereDisc = (!disciplina.isEmpty()) ? ((iddis == -1)? " id_disciplina = " + iddis : "") : "";
 
         whereClause += whereSala;
@@ -706,7 +737,7 @@ public class DBManager extends SQLiteOpenHelper {
     private void insert_vigilancias_result_in_TextView(TextView textView, Cursor cursor) {
         textView.setText("");
         textView.append(Html.fromHtml("<b>" + "ID: \t\tSala: \t\tData:"));
-        textView.append(Html.fromHtml("<b><br/>" + "Hora: \t\tDisciplina: \t\tVigilante: "));
+        textView.append(Html.fromHtml("<b><br/>" + "Hora: \t\tDisciplina: \t\tRUC: "));
         while (cursor.moveToNext()){
             textView.append("\n\n" + cursor.getString(0) + ",\t\t" +
                     cursor.getString(1) + ",\t\t" +

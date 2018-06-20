@@ -139,7 +139,7 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
         String ucSelected = "" + manager.getNomeDisciplina(manager.getIdDisciplina(s));
         spinnerUC.setSelection(getIndex(spinnerUC, ucSelected));
 
-        String vigSelected = "" + manager.getEmail(manager.getIdVigilante(s));
+        String vigSelected = "" + manager.getEmail(manager.getIdRuc(s));
         spinnerVig.setSelection(getIndex(spinnerVig, vigSelected));
 
         String pontuacaoSelected = "" + manager.getPontuacao(s);
