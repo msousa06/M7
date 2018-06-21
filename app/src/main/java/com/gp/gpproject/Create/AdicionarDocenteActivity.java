@@ -1,4 +1,4 @@
-package com.gp.gpproject;
+package com.gp.gpproject.Create;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+
+import com.gp.gpproject.DBManager;
+import com.gp.gpproject.Read.ListarDocentesActivity;
+import com.gp.gpproject.R;
 
 import java.util.List;
 
@@ -36,7 +40,7 @@ public class AdicionarDocenteActivity extends AppCompatActivity {
         spinnerCat = (Spinner) findViewById(R.id.spinnerCategoria);
         spinnerDep = (Spinner) findViewById(R.id.spinnerDepartamento);
 
-        final DBManager manager = new DBManager(this, "", null, 2);
+        final DBManager manager = new DBManager(this);
 
         ImageView confirmbtn = (ImageView) findViewById(R.id.confirmbtn);
         confirmbtn.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +89,7 @@ public class AdicionarDocenteActivity extends AppCompatActivity {
 
     public void addSpinnerCat() {
         spinnerCat.setPrompt("Select an item");
-        DBManager bd = new DBManager(this, "", null, 2);
+        DBManager bd = new DBManager(this);
 
         List<String> categorias = bd.getAllCategorias();
 
@@ -98,7 +102,7 @@ public class AdicionarDocenteActivity extends AppCompatActivity {
 
     public void addSpinnerDep() {
         spinnerDep.setPrompt("Select an item");
-        DBManager bd = new DBManager(this, "", null, 2);
+        DBManager bd = new DBManager(this);
 
         List<String> departamentos = bd.getAllDepartamentos();
 

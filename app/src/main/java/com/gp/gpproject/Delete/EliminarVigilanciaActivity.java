@@ -1,4 +1,4 @@
-package com.gp.gpproject;
+package com.gp.gpproject.Delete;
 
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.gp.gpproject.DBManager;
+import com.gp.gpproject.R;
 
 public class EliminarVigilanciaActivity extends AppCompatActivity {
 
@@ -19,7 +22,7 @@ public class EliminarVigilanciaActivity extends AppCompatActivity {
 
         final EditText fieldID = (EditText) findViewById(R.id.fieldID);
 
-        final DBManager manager = new DBManager(this, "", null, 2);
+        final DBManager manager = new DBManager(this);
 
         ImageView confirmbtn = (ImageView) findViewById(R.id.confirmbtn);
         confirmbtn.setOnClickListener(new View.OnClickListener() {

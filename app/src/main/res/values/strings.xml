@@ -1,13 +1,8 @@
 <resources>
-<<<<<<< HEAD
-
-=======
->>>>>>> Joao
     <string name="app_name">Vigilancias Ips</string>
     <string name="title_activity_listar_docentes">ListarDocentesActivity</string>
     <string name="dialog_message">Eliminar Docente</string>
     <string name="dialog_title">Id do Funcionário:</string>
-<<<<<<< HEAD
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -113,7 +108,8 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_adicionar_categoria">AdicionarCategoriaActivity</string>
-=======
->>>>>>> Joao
+    <string name="title_activity_adicionar_categoria">AdicionarCategoriaActivity</string> 
+    <string name="title_activity_search_docente">SearchDocenteActivity</string>
+    <string name="title_activity_search_menu">Menu de Pesquisa</string>
+ 
 </resources>

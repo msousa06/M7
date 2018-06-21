@@ -1,9 +1,11 @@
-package com.gp.gpproject;
+package com.gp.gpproject.Create;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+
+import com.gp.gpproject.DBManager;
+import com.gp.gpproject.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +39,7 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
     private Spinner spinnerVig;
     private Spinner spinnerPontuacao;
     private EditText salatxt;
+    private EditText qtdPretendida;
     private DBManager manager;
     private AlertDialog alertDialog;
 
@@ -47,7 +53,8 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
         spinnerVig = (Spinner) findViewById(R.id.spinnerVig);
         spinnerPontuacao = (Spinner) findViewById(R.id.spinnerPontuacao);
         salatxt = (EditText) findViewById(R.id.salatxt);
-        manager = new DBManager(this, "", null, 2);
+        qtdPretendida = (EditText) findViewById(R.id.qtdPretendida);
+        manager = new DBManager(this);
 
         setDate();
         setTime();
@@ -62,14 +69,16 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
                 if (!salatxt.getText().toString().equalsIgnoreCase("")) {
                     if (!mDisplayDate.getText().toString().equalsIgnoreCase("")) {
                         if (!mDisplayTime.getText().toString().equalsIgnoreCase("")) {
-
-<<<<<<< HEAD
-                            manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
+                            manager.insert_vigilancia(
+                                    salatxt.getText().toString(),
+                                    mDisplayDate.getText().toString(),
+                                    mDisplayTime.getText().toString(),
+                                    spinnerVig.getSelectedItem().toString(),
+                                    spinnerUC.getSelectedItem().toString(),
+                                    spinnerPontuacao.getSelectedItem().toString(),
+                                    Integer.parseInt(qtdPretendida.getText().toString()));
+                        //    sentNotification();
                             finish();
-=======
-                                manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
-                                finish();
->>>>>>> Joao
 
                         } else {
                             alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
@@ -96,7 +105,12 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
+                alertDialog.setTitle("Erro");
+                alertDialog.setMessage(mDisplayDate.getText().toString() + mDisplayTime.getText().toString());
+                alertDialog.show();
+
+                //finish();
             }
         });
     }
@@ -154,7 +168,7 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
 
     public void addSpinnerUC() {
         spinnerUC.setPrompt("Select an item");
-        DBManager bd = new DBManager(this, "", null, 2);
+        DBManager bd = new DBManager(this);
 
         List<String> disciplinas = bd.getAllDisciplinas();
 
@@ -167,7 +181,7 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
 
     public void addSpinnerVigilante() {
         spinnerVig.setPrompt("Select an item");
-        DBManager bd = new DBManager(this, "", null, 2);
+        DBManager bd = new DBManager(this);
 
         List<String> docentes = bd.getAllDocentes();
 
@@ -186,4 +200,15 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, items);
         spinnerPontuacao.setAdapter(adapter);
     }
+/*
+    public void sentNotification(){
+        Intent intent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Notificação de Vigilancia");
+        intent.putExtra(Intent.EXTRA_TEXT, "Foi requisitado para uma vigilância no dia " + mDisplayDate.getText().toString() + "às " + mDisplayTime.getText().toString() + " horas." + "\n Disciplina: " + spinnerUC.getSelectedItem().toString());
+        intent.setData(Uri.parse("mailto:" + spinnerVig.getSelectedItem().toString())); // or just "mailto:" for blank
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+        startActivity(intent);
+    }
+    */
 }
