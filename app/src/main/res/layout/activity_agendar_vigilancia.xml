@@ -16,7 +16,9 @@
         android:background="@drawable/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddDisciplina"
+        app:layout_constraintEnd_toStartOf="@+id/ipsLogoMainMenu"
+        app:layout_constraintHorizontal_bias="0.131"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -88,6 +90,7 @@
         app:layout_constraintEnd_toStartOf="@+id/salatxt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pontuacaoLabel" />
+
 
     <TextView
         android:id="@+id/vigilanteLabel"
@@ -215,6 +218,39 @@
         app:layout_constraintEnd_toStartOf="@+id/tvTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dataLabel" />
+
+    <EditText
+        android:id="@+id/qtdPretendida"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Quantidade"
+        android:inputType="numberPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.985" />
+
+    <TextView
+        android:id="@+id/qtdLabel"
+        android:layout_width="112dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginStart="8dp"
+        android:text="Quantidade de docentes"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
 
 
 </android.support.constraint.ConstraintLayout>

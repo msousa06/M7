@@ -1,4 +1,4 @@
-package com.gp.gpproject;
+package com.gp.gpproject.Update;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -20,6 +20,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 
+import com.gp.gpproject.DBManager;
+import com.gp.gpproject.Read.ListarVigilanciasActivity;
+import com.gp.gpproject.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,6 +38,7 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
     private Spinner spinnerVig;
     private Spinner spinnerPontuacao;
     private EditText salatxt;
+    private EditText qtdPretendida;
     private DBManager manager;
     private AlertDialog alertDialog;
     private String s;
@@ -49,7 +54,8 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
         spinnerVig = (Spinner) findViewById(R.id.spinnerVig);
         spinnerPontuacao = (Spinner) findViewById(R.id.spinnerPontuacao);
         salatxt = (EditText) findViewById(R.id.salatxt);
-        manager = new DBManager(this, "", null, 2);
+        qtdPretendida = (EditText) findViewById(R.id.qtdPretendida);
+        manager = new DBManager(this);
         s = getIntent().getStringExtra("EXTRA_VIGILANCIA_ID");
 
         addSpinnerPontuacao();
@@ -63,7 +69,16 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    manager.updateVigilancia(s, salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), Integer.parseInt(spinnerPontuacao.getSelectedItem().toString()));
+                    manager.updateVigilancia(
+                            s,
+                            salatxt.getText().toString(),
+                            mDisplayDate.getText().toString(),
+                            mDisplayTime.getText().toString(),
+                            spinnerVig.getSelectedItem().toString(),
+                            spinnerUC.getSelectedItem().toString(),
+                            Integer.parseInt(spinnerPontuacao.getSelectedItem().toString()),
+                            Integer.parseInt(qtdPretendida.getText().toString()));
+
                     startActivity(new Intent(EditarVigilanciaActivity.this, ListarVigilanciasActivity.class));
                     finish();
                 } catch (Exception e) {
@@ -124,7 +139,7 @@ public class EditarVigilanciaActivity extends AppCompatActivity {
         String ucSelected = "" + manager.getNomeDisciplina(manager.getIdDisciplina(s));
         spinnerUC.setSelection(getIndex(spinnerUC, ucSelected));
 
-        String vigSelected = "" + manager.getEmail(manager.getIdVigilante(s));
+        String vigSelected = "" + manager.getEmail(manager.getIdRuc(s));
         spinnerVig.setSelection(getIndex(spinnerVig, vigSelected));
 
         String pontuacaoSelected = "" + manager.getPontuacao(s);

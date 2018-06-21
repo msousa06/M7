@@ -10,11 +10,17 @@ import android.widget.ImageButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
+import com.gp.gpproject.Create.AdicionarCategoriaActivity;
+import com.gp.gpproject.Create.AdicionarDepartamentoActivity;
+import com.gp.gpproject.Create.AdicionarDisciplinaActivity;
+import com.gp.gpproject.Read.ListarDocentesActivity;
+import com.gp.gpproject.Read.ListarVigilanciasActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
-    DBManager db = new DBManager(this,"",null,2);
+    DBManager db = new DBManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
                 bundleAddDisciplina.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleAddDisciplina);
                 startActivity(new Intent(MainActivity.this,AdicionarDisciplinaActivity.class));
+            }
+        });
+
+        Button btnSearch = (Button) findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(MainActivity.this,SearchMenuActivity.class));
             }
         });
     }

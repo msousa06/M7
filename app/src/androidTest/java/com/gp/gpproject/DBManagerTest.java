@@ -84,7 +84,7 @@ public class DBManagerTest {
         boolean resultado = dbManager.insert_disciplina(nome,sigla,departamento,emailRuc);
         Assert.assertEquals(true, resultado);
     }
-
+/*
     @Test
     public void insert_vigilancia() {
         String sala = "e255";
@@ -96,7 +96,7 @@ public class DBManagerTest {
 
         boolean resultado = dbManager.insert_vigilancia(sala,data,hora,emailVig,disciplina,pontuacao);
         Assert.assertEquals(true, resultado);
-    }
+    }*/
 
     @Test
     public void updateDocente() {
@@ -124,7 +124,7 @@ public class DBManagerTest {
         boolean resultado = dbManager.updateFuncionario(id,nome,apelido,telefone,email,categoria);
         Assert.assertEquals(true, resultado);
     }
-
+/*
     @Test
     public void updateVigilancia() {
         String id = "1";
@@ -138,7 +138,7 @@ public class DBManagerTest {
         boolean resultado = dbManager.updateVigilancia(id,sala,data,hora,emailVig,disciplina,pontuacao);
         Assert.assertEquals(true, resultado);
     }
-
+*/
     /*@Test
     public void delete() {
         String tableName = "funcionarios";

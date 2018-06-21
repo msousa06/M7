@@ -1,10 +1,10 @@
-package com.gp.gpproject;
+package com.gp.gpproject.Read;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -12,27 +12,41 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gp.gpproject.Create.AdicionarDocenteActivity;
+import com.gp.gpproject.DBManager;
+import com.gp.gpproject.Delete.EliminarDocenteActivity;
+import com.gp.gpproject.R;
+import com.gp.gpproject.Update.EditarDocenteActivity;
 
-public class ListarVigilanciasActivity extends AppCompatActivity {
-
+public class SearchDocenteResultActivity extends AppCompatActivity {
+    private String nome, departamento, categoria, modificador, pontos;
     private AlertDialog alertDialog;
-    private View view;
-    private TextView textView;
     private DBManager manager;
-
+    private TextView textViewResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_vigilancias);
+        setContentView(R.layout.activity_search_docente_result);
 
-        manager = new DBManager(this, "", null, 2);
-
-        textView = (TextView) findViewById(R.id.textView);
-
-        manager.list_all_Vigilancias(textView);
+        textViewResult = (TextView) findViewById(R.id.searchResultTextInput);
 
 
-        ImageButton backbtn = (ImageButton) findViewById(R.id.backbtn);
+        manager = new DBManager(this);
+        Bundle extras = getIntent().getExtras();
+        this.nome = extras.getString("nome");
+        this.pontos = extras.getString("pontos");
+        this.departamento = extras.getString("departamento");
+        this.categoria = extras.getString("categoria");
+        this.modificador = extras.getString("modificador");
+
+        this.departamento = (this.departamento.contains("Select an item"))? "" : this.departamento;
+        this.categoria = (this.categoria.contains("Select an item"))? "" : this.categoria;
+
+        manager.list_search_docentes(textViewResult, nome, departamento, categoria, pontos, modificador);
+
+
+
+        ImageButton backbtn = (ImageButton) findViewById(R.id.backBtnSearchResult);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,41 +54,35 @@ public class ListarVigilanciasActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton newBtn = (ImageButton) findViewById(R.id.newBtn);
+
+        ImageButton newBtn = (ImageButton) findViewById(R.id.newBtnSearchResult);
         newBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ListarVigilanciasActivity.this, AgendarVigilanciaActivity.class));
+                startActivity(new Intent(SearchDocenteResultActivity.this, AdicionarDocenteActivity.class));
                 finish();
             }
         });
 
-
-        ImageButton deleteAllBtn = (ImageButton) findViewById(R.id.deleteALLBtn);
-        deleteAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                manager.deleteAll("vigilancias");
-            }
-        });
-
-        ImageButton deleteBtn = (ImageButton) findViewById(R.id.deleteBtn);
+        ImageButton deleteBtn = (ImageButton) findViewById(R.id.deleteBtnSearchResult);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ListarVigilanciasActivity.this, EliminarVigilanciaActivity.class));
+                startActivity(new Intent(SearchDocenteResultActivity.this, EliminarDocenteActivity.class));
                 finish();
             }
         });
 
-        ImageButton editBtn = (ImageButton) findViewById(R.id.editBtn);
+
+        ImageButton editBtn = (ImageButton) findViewById(R.id.editBtnSearchResult);
+
         editBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                alertDialog = new AlertDialog.Builder(ListarVigilanciasActivity.this).create();
-                alertDialog.setTitle("Editar Vigilância");
-                alertDialog.setMessage("ID da Vigilância a Editar: ");
+                alertDialog = new AlertDialog.Builder(SearchDocenteResultActivity.this).create();
+                alertDialog.setTitle("Editar Docente");
+                alertDialog.setMessage("ID do Docente a Editar: ");
 
-                final EditText input = new EditText(ListarVigilanciasActivity.this);
+                final EditText input = new EditText(SearchDocenteResultActivity.this);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -93,22 +101,22 @@ public class ListarVigilanciasActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (!input.getText().toString().equalsIgnoreCase("") && Integer.parseInt(input.getText().toString()) >= 0) {
-                                    if (manager.idExists("vigilancias", input.getText().toString())) {
+                                    if (manager.idExists("docentes", input.getText().toString())) {
                                         dialog.cancel();
-                                        Intent intent = new Intent(ListarVigilanciasActivity.this, EditarVigilanciaActivity.class);
-                                        intent.putExtra("EXTRA_VIGILANCIA_ID", input.getText().toString());
+                                        Intent intent = new Intent(SearchDocenteResultActivity.this, EditarDocenteActivity.class);
+                                        intent.putExtra("EXTRA_DOCENTE_ID", input.getText().toString());
                                         startActivity(intent);
                                         finish();
                                     } else {
                                         dialog.cancel();
-                                        alertDialog = new AlertDialog.Builder(ListarVigilanciasActivity.this).create();
+                                        alertDialog = new AlertDialog.Builder(SearchDocenteResultActivity.this).create();
                                         alertDialog.setTitle("Erro");
-                                        alertDialog.setMessage("Vigilância não existente!");
+                                        alertDialog.setMessage("Docente não existente!");
                                         alertDialog.show();
                                     }
                                 } else {
                                     dialog.cancel();
-                                    alertDialog = new AlertDialog.Builder(ListarVigilanciasActivity.this).create();
+                                    alertDialog = new AlertDialog.Builder(SearchDocenteResultActivity.this).create();
                                     alertDialog.setTitle("Erro");
                                     alertDialog.setMessage("Insira um valor válido!");
                                     alertDialog.show();
@@ -118,6 +126,7 @@ public class ListarVigilanciasActivity extends AppCompatActivity {
 
                 alertDialog.show();
             }
+
         });
     }
 }
