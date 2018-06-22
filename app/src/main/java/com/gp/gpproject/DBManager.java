@@ -22,16 +22,15 @@ public class DBManager extends SQLiteOpenHelper {
     //private FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "m7database.db";
+<<<<<<< HEAD
 
+=======
+>>>>>>> bernardof
 
 
 
     public DBManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    public DBManager(Context context,String nome){
-        super(context, nome, null, DATABASE_VERSION);
     }
 
     @Override
@@ -122,6 +121,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS role");
         db.execSQL("DROP TABLE IF EXISTS departamentos");
         db.execSQL("DROP TABLE IF EXISTS categorias");
         db.execSQL("DROP TABLE IF EXISTS funcionarios");
@@ -136,55 +136,17 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-
-    /*
-        db.execSQL("CREATE TABLE parent (parentID INTEGER PRIMARY KEY AUTOINCREMENT , name TEXT, email TEXT);");
-    *
-    *  Cada operação do (C)RUD var ter a seguinte ideologia:
-    *
-    public long addParent(DBManager dbManager, String name, String email) {
-        ContentValues values = new ContentValues();
-        values.put("name", name);
-        values.put("email", email);
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-        long result = db.insert("parent", null, values);
-        db.close();
-        return result;
-    }
-
-
-    Cada operação do C(R)UD var ter a seguinte ideologia:
-
-    public Cursor getParent(DBManager dbManager, String email) {
-
-        SQLiteDatabase db = dbManager.getReadableDatabase();
-        String query = "SELECT parentID FROM parent WHERE email = '" + email + "';";
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.getCount() == 0) {
-            return null;
-        } else {
-            return cursor;
-        }
-    }
-
-    *
-    * */
-
-    public boolean insert_funcionario(String nome, String apelido, String telefone, String email, int categoria){
+    public void insert_funcionario(String nome, String apelido, String telefone, String email, int categoria){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome",nome);
         contentValues.put("apelido", apelido);
         contentValues.put("telefone", telefone);
         contentValues.put("email", email);
         contentValues.put("id_categoria", categoria);
-        if(this.getWritableDatabase().insertOrThrow("funcionarios","",contentValues) != -1){
-            return true;
-        } else {
-            return false;
-        }
+        this.getWritableDatabase().insertOrThrow("funcionarios","",contentValues);
     }
 
-    public boolean insert_docente(String departamento, String nome, String apelido, String telefone, String email, String categoria){
+    public void insert_docente(String departamento, String nome, String apelido, String telefone, String email, String categoria){
         ContentValues contentValues = new ContentValues();
 
         insert_funcionario(nome, apelido, telefone, email, getIdCategoria(categoria));
@@ -192,11 +154,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         contentValues.put("pontos", 0);
         contentValues.put("id_departamento", getIdFromName("departamentos",departamento));
-        if(this.getWritableDatabase().insertOrThrow("docentes","",contentValues) != -1){
-            return true;
-        } else {
-            return false;
-        }
+        this.getWritableDatabase().insertOrThrow("docentes","",contentValues);
     }
 
     public void list_all_docentes(TextView textView){
@@ -259,15 +217,10 @@ public class DBManager extends SQLiteOpenHelper {
         return categorias;
     }
 
-    public boolean insert_categoria(String nome){
+    public void insert_categoria(String nome){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome", nome);
-
-        if(this.getWritableDatabase().insertOrThrow("categorias","",contentValues) != -1){
-            return true;
-        } else {
-            return false;
-        }
+        this.getWritableDatabase().insertOrThrow("categorias","",contentValues);
     }
 
     public int getIdCategoria(String nome){
@@ -300,16 +253,11 @@ public class DBManager extends SQLiteOpenHelper {
         return cat;
     }
 
-    public boolean insert_departamento(String nome,String sigla){
+    public void insert_departamento(String nome,String sigla){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome", nome);
         contentValues.put("sigla", sigla);
-
-        if(this.getWritableDatabase().insertOrThrow("departamentos","",contentValues) != -1){
-            return true;
-        } else {
-            return false;
-        }
+        this.getWritableDatabase().insertOrThrow("departamentos","",contentValues);
     }
 
     public String getIdFromName(String tablename, String name){
@@ -482,31 +430,21 @@ public class DBManager extends SQLiteOpenHelper {
         return nome;
     }
 
-    public boolean updateDocente(String id, String departamento, String nome, String apelido, String telefone, String email, String categoria){
+    public void updateDocente(String id, String departamento, String nome, String apelido, String telefone, String email, String categoria){
         updateFuncionario(id, nome, apelido, telefone, email, getIdCategoria(categoria));
         ContentValues contentValues = new ContentValues();
         contentValues.put("id_departamento", getIdFromName("departamentos",departamento));
-
-        if(this.getWritableDatabase().updateWithOnConflict("docentes", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK) != -1){
-            return true;
-        } else {
-            return false;
-        }
+        this.getWritableDatabase().updateWithOnConflict("docentes", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
     }
 
-    public boolean updateFuncionario(String id, String nome, String apelido, String telefone, String email, int categoria){
+    public void updateFuncionario(String id, String nome, String apelido, String telefone, String email, int categoria){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome",nome);
         contentValues.put("apelido", apelido);
         contentValues.put("telefone", telefone);
         contentValues.put("email", email);
         contentValues.put("id_categoria", categoria);
-
-        if(this.getWritableDatabase().updateWithOnConflict("funcionarios", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK) != -1){
-            return true;
-        } else {
-            return false;
-        }
+        this.getWritableDatabase().updateWithOnConflict("funcionarios", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
     }
 
     public boolean delete(String tableName, String id){
@@ -561,22 +499,21 @@ public class DBManager extends SQLiteOpenHelper {
         return docentes;
     }
 
-    public boolean insert_disciplina(String nome, String sigla, String departamento, String emailRuc){
+    public void insert_disciplina(String nome, String sigla, String departamento, String emailRuc){
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome", nome);
         contentValues.put("sigla", sigla);
         contentValues.put("id_departamento", getIdFromName("departamentos", departamento));
         contentValues.put("id_ruc", getIdFuncionario(emailRuc));
-
-        if(this.getWritableDatabase().insertOrThrow("disciplinas","",contentValues) != -1){
-            return true;
-        } else {
-            return false;
-        }
+        this.getWritableDatabase().insertOrThrow("disciplinas","",contentValues);
     }
 
+<<<<<<< HEAD
     public /*boolean*/ void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {
 
+=======
+    public void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {
+>>>>>>> bernardof
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
@@ -584,8 +521,12 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas", disciplina));
         contentValues.put("pontuacao_vigilancia", Integer.parseInt(pontuacao));
+<<<<<<< HEAD
 		
         long insertResult = this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
+=======
+        this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
+>>>>>>> bernardof
 
         String sql = "SELECT id FROM vigilancias WHERE sala = ? AND data = ? AND hora = ? " +
                 "AND id_ruc = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
@@ -604,11 +545,19 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         if(qtdNecessaria > 0)
+<<<<<<< HEAD
             /*return */assignDocenteToVigilancia(qtdNecessaria, getIdFuncionario(emailVig), idVigilancia); //put this to return boolean
 	   /* return (insertResult != -1)? true : false;*/
     }
 
     private /*boolean*/ void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+=======
+            assignDocenteToVigilancia(qtdNecessaria, getIdFuncionario(emailVig), idVigilancia);
+    }
+
+
+    private void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+>>>>>>> bernardof
         qtdNecessaria += 2;
         String qtd = String.valueOf(qtdNecessaria);
         String id = getIdDepartamento(String.valueOf(idFuncionario));
@@ -632,6 +581,7 @@ public class DBManager extends SQLiteOpenHelper {
                     } while (c.moveToNext());
                 }
             }
+<<<<<<< HEAD
         }
 
         for(int id_docente : docentes) {
@@ -662,12 +612,44 @@ public class DBManager extends SQLiteOpenHelper {
 
     public /*boolean*/ void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
 // >>>>>>> Pedro
+=======
+        }
+
+        for(int id_docente : docentes) {
+            ContentValues values = new ContentValues();
+            values.put("id_vigilancia", idVigilancia);
+            values.put("id_docente", id_docente);
+            values.put("esteve_presente", 0);
+            values.put("justificacao", "");
+            this.getWritableDatabase().insertOrThrow("docente_vigilancia", "", values);
+        }
+
+        //TODO Falta a notificação
+    }
+
+    private void editAssignedDotcenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+        String sql = "SELECT id FROM docente_vigilancia WHERE id_vigilancia = " + idVigilancia;
+        Cursor c = this.getWritableDatabase().rawQuery(sql,null);
+
+        if(c.moveToFirst()) {
+            do {
+                this.getWritableDatabase().execSQL("delete from docente_vigilancia where id = ?", new String[] {String.valueOf(idVigilancia)});
+            } while (c.moveToNext());
+        }
+
+        if(qtdNecessaria > 0)
+            assignDocenteToVigilancia(qtdNecessaria, idFuncionario, idVigilancia);
+    }
+
+    public void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
+>>>>>>> bernardof
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
         contentValues.put("hora", hora);
         contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas",disciplina));
+<<<<<<< HEAD
         contentValues.put("pontuacao_vigilancia", pontuacao);/*
 <<<<<<< HEAD
 
@@ -679,6 +661,11 @@ public class DBManager extends SQLiteOpenHelper {
 =======*/
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
 
+=======
+        contentValues.put("pontuacao_vigilancia", pontuacao);
+        this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
+
+>>>>>>> bernardof
         editAssignedDotcenteToVigilancia(qtdPretendida, getIdFuncionario(emailVig), Integer.parseInt(id));
     }
 
@@ -808,7 +795,10 @@ public class DBManager extends SQLiteOpenHelper {
         return ids;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bernardof
     private int getIdDisciplinaFromNome(String nome) {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT id FROM disciplinas WHERE nome like '" + nome + "'",null);
         if(cursor.moveToFirst()) {

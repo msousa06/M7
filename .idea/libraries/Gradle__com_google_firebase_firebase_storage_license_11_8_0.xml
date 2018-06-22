@@ -1,8 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-storage-license-11.8.0">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-storage-license-11.8.0.aar/e5142b354bb1cf99de61f270c65d5928/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-storage-license-11.8.0.aar/e5142b354bb1cf99de61f270c65d5928/res" />
+=======
+<<<<<<< HEAD
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-storage-license-11.8.0.aar/e5142b354bb1cf99de61f270c65d5928/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-storage-license-11.8.0.aar/e5142b354bb1cf99de61f270c65d5928/res" />
+=======
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-storage-license-11.8.0.aar/6360293cd8730f931e1b10b7db8f0d58/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-storage-license-11.8.0.aar/6360293cd8730f931e1b10b7db8f0d58/jars/classes.jar!/" />
+>>>>>>> 3c3b92a543c3964907d954b2016a5cc7521c2ac1
+>>>>>>> bernardof
     </CLASSES>
     <JAVADOC />
     <SOURCES />

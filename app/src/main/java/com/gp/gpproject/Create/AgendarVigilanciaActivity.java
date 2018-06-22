@@ -79,7 +79,10 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
                                     Integer.parseInt(qtdPretendida.getText().toString()));
                         //    sentNotification();
                             finish();
+<<<<<<< HEAD
 
+=======
+>>>>>>> bernardof
                         } else {
                             alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();
                             alertDialog.setTitle("Erro");

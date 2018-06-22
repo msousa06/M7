@@ -1,8 +1,18 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-common-11.8.0">
     <CLASSES>
+<<<<<<< HEAD
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-common-11.8.0.aar/8654736675165266a4b6f40c4f1a57ec/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-common-11.8.0.aar/8654736675165266a4b6f40c4f1a57ec/jars/classes.jar!/" />
+=======
+<<<<<<< HEAD
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-common-11.8.0.aar/8654736675165266a4b6f40c4f1a57ec/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-common-11.8.0.aar/8654736675165266a4b6f40c4f1a57ec/jars/classes.jar!/" />
+=======
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-common-11.8.0.aar/ed7006c53cd61f725654ab9720ed15d0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-common-11.8.0.aar/ed7006c53cd61f725654ab9720ed15d0/jars/classes.jar!/" />
+>>>>>>> 3c3b92a543c3964907d954b2016a5cc7521c2ac1
+>>>>>>> bernardof
     </CLASSES>
     <JAVADOC />
     <SOURCES />
