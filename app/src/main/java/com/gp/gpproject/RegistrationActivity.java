@@ -1,97 +1,40 @@
 package com.gp.gpproject;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.Activity;
+        import android.app.AlertDialog;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.support.annotation.NonNull;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
-
-
-
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.analytics.FirebaseAnalytics;
+        import com.google.firebase.auth.AuthResult;
+        import com.google.firebase.auth.FirebaseAuth;
 
 public class RegistrationActivity extends Activity {
 
     private EditText txtEmailAddress;
     private EditText txtPassword;
     private FirebaseAuth firebaseAuth;
+    private FirebaseAnalytics mFirebaseAnalytics;
     private Button btnRegis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         txtEmailAddress = (EditText) findViewById(R.id.textEmail);
         txtPassword = (EditText) findViewById(R.id.textPassword);
         firebaseAuth = FirebaseAuth.getInstance();
         btnRegis = (Button) findViewById(R.id.buttonRegister);
-
-		/*
-        TextView login = (TextView) findViewById(R.id.textSignin);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
-            }
-        });*/
 
         btnRegis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +51,13 @@ public class RegistrationActivity extends Activity {
                                                 if (task.isSuccessful()) {
                                                     Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
                                                     Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                                    String idRegis = "";
+                                                    String nameRegis = "";
+                                                    Bundle bundleRegis = new Bundle();
+                                                    bundleRegis.putString(FirebaseAnalytics.Param.ITEM_ID, idRegis);
+                                                    bundleRegis.putString(FirebaseAnalytics.Param.ITEM_NAME, nameRegis);
+                                                    bundleRegis.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                                                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleRegis);
                                                     startActivity(i);
                                                 } else {
                                                     Log.e("ERROR", task.getException().toString());
@@ -124,10 +74,6 @@ public class RegistrationActivity extends Activity {
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
-
-                /*
-
-                 */
             }
         });
     }

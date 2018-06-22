@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.gp.gpproject.Create.AgendarVigilanciaActivity;
 import com.gp.gpproject.DBManager;
 import com.gp.gpproject.Delete.EliminarVigilanciaActivity;
+import com.gp.gpproject.MainActivity;
 import com.gp.gpproject.R;
 import com.gp.gpproject.Update.EditarVigilanciaActivity;
 
@@ -42,6 +43,7 @@ public class ListarVigilanciasActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(ListarVigilanciasActivity.this, MainActivity.class));
                 finish();
             }
         });

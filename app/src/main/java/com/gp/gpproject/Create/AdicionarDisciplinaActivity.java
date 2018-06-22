@@ -1,5 +1,6 @@
 package com.gp.gpproject.Create;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 
 
 import com.gp.gpproject.DBManager;
+import com.gp.gpproject.MainActivity;
 import com.gp.gpproject.R;
 
 import java.util.List;
@@ -45,6 +47,7 @@ public class AdicionarDisciplinaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     manager.insert_disciplina(fieldnome.getText().toString(), fieldsigla.getText().toString(), spinnerDep.getSelectedItem().toString(), spinnerRuc.getSelectedItem().toString());
+                    startActivity(new Intent(AdicionarDisciplinaActivity.this, MainActivity.class));
                     finish();
                 }
                 catch(Exception e){
@@ -60,6 +63,7 @@ public class AdicionarDisciplinaActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                startActivity(new Intent(AdicionarDisciplinaActivity.this, MainActivity.class));
                 finish();
             }
         });

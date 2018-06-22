@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                bundleListaDocentes.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleListaDocentes);
                startActivity(new Intent(MainActivity.this,ListarDocentesActivity.class));
+               finish();
            }
         });
 
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 bundleAddCategoria.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleAddCategoria);
                 startActivity(new Intent(MainActivity.this,AdicionarCategoriaActivity.class));
+                finish();
             }
         });
 
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 bundleAddDepartamento.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleAddDepartamento);
                 startActivity(new Intent(MainActivity.this,AdicionarDepartamentoActivity.class));
+                finish();
             }
         });
 
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 bundleListaVig.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleListaVig);
                 startActivity(new Intent(MainActivity.this,ListarVigilanciasActivity.class));
+                finish();
             }
         });
 
@@ -109,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 bundleAddDisciplina.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleAddDisciplina);
                 startActivity(new Intent(MainActivity.this,AdicionarDisciplinaActivity.class));
+                finish();
             }
         });
 
@@ -117,7 +124,43 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this,SearchMenuActivity.class));
+                finish();
             }
         });
+
+        Button btnAux = (Button) findViewById(R.id.btnAux);
+        btnAux.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(MainActivity.this,SelecionarRoleUser.class);
+                i.putExtra("Email", getIntent().getExtras().getString("Email"));
+                startActivity(i);
+                finish();
+            }
+        });
+
+        Intent intent = getIntent();
+        String email = intent.getExtras().getString("Email");
+
+        EditText roletxt = (EditText) findViewById(R.id.roletxt);
+        roletxt.setText(db.getRole(email));
+
+        if(db.getRole(email).equalsIgnoreCase("Docente")){
+            btnListaDocentes.setVisibility(View.INVISIBLE);
+            btnAddCategoria.setVisibility(View.INVISIBLE);
+            btnAddDepartamento.setVisibility(View.INVISIBLE);
+            btnListaVig.setVisibility(View.INVISIBLE);
+            btnAddDisciplina.setVisibility(View.INVISIBLE);
+        } else if(db.getRole(email).equalsIgnoreCase("Secretária") || db.getRole(email).equalsIgnoreCase("RUC")){
+            btnListaDocentes.setVisibility(View.INVISIBLE);
+            btnListaVig.setVisibility(View.INVISIBLE);
+        } else if(db.getRole(email).equalsIgnoreCase("Em Espera")){
+            btnListaDocentes.setVisibility(View.INVISIBLE);
+            btnAddCategoria.setVisibility(View.INVISIBLE);
+            btnAddDepartamento.setVisibility(View.INVISIBLE);
+            btnListaVig.setVisibility(View.INVISIBLE);
+            btnAddDisciplina.setVisibility(View.INVISIBLE);
+            btnSearch.setVisibility(View.INVISIBLE);
+        }
     }
 }

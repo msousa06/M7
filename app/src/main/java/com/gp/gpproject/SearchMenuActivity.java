@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.gp.gpproject.Create.AdicionarDisciplinaActivity;
 import com.gp.gpproject.Read.SearchDocenteActivity;
 import com.gp.gpproject.Read.SearchVigilanciaActivity;
 import com.gp.gpproject.Read.SearchVigilanciaResultActivity;
@@ -77,6 +78,9 @@ public class SearchMenuActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                Intent i = new Intent(SearchMenuActivity.this, MainActivity.class);
+                i.putExtra("Email", getIntent().getExtras().getString("Email"));
+                startActivity(i);
                 finish();
             }
         });

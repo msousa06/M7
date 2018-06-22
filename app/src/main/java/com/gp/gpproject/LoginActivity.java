@@ -40,12 +40,11 @@ public class LoginActivity extends AppCompatActivity {
         resetpass = (Button) findViewById(R.id.link_resetPass);
         createUser = (Button) findViewById(R.id.link_signup);
 
-
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                firebaseAuth.createUserWithEmailAndPassword(txtEmailLogin.getText().toString(), txtPwd.getText().toString())
+                firebaseAuth.signInWithEmailAndPassword(txtEmailLogin.getText().toString(), txtPwd.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

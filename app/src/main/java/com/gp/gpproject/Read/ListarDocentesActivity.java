@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.gp.gpproject.Create.AdicionarDocenteActivity;
 import com.gp.gpproject.DBManager;
 import com.gp.gpproject.Delete.EliminarDocenteActivity;
+import com.gp.gpproject.MainActivity;
 import com.gp.gpproject.R;
 import com.gp.gpproject.Update.EditarDocenteActivity;
 
@@ -42,6 +43,7 @@ public class ListarDocentesActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(ListarDocentesActivity.this, MainActivity.class));
                 finish();
             }
         });

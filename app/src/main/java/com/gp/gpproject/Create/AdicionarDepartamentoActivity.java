@@ -1,5 +1,6 @@
 package com.gp.gpproject.Create;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.gp.gpproject.DBManager;
+import com.gp.gpproject.MainActivity;
 import com.gp.gpproject.R;
 
 
@@ -34,6 +36,7 @@ public class AdicionarDepartamentoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     manager.insert_departamento(fieldnome.getText().toString(), fieldsigla.getText().toString());
+                    startActivity(new Intent(AdicionarDepartamentoActivity.this, MainActivity.class));
                     finish();
                 }
                 catch(Exception e){
@@ -49,6 +52,7 @@ public class AdicionarDepartamentoActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                startActivity(new Intent(AdicionarDepartamentoActivity.this, MainActivity.class));
                 finish();
             }
         });
