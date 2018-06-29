@@ -16,13 +16,8 @@
         android:background="@drawable/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-<<<<<<< HEAD
         app:layout_constraintBottom_toTopOf="@+id/btnAddDisciplina"
         app:layout_constraintEnd_toStartOf="@+id/ipsLogoMainMenu"
-        app:layout_constraintHorizontal_bias="0.131"
-=======
-        app:layout_constraintHorizontal_bias="0.0"
->>>>>>> bernardof
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />

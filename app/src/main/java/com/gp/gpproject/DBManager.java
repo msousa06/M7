@@ -22,12 +22,6 @@ public class DBManager extends SQLiteOpenHelper {
     //private FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "m7database.db";
-<<<<<<< HEAD
-
-=======
->>>>>>> bernardof
-
-
 
     public DBManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,56 +39,29 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nome " +
                 " TEXT UNIQUE NOT NULL);");
 
-
-
-
-
         db.execSQL("CREATE TABLE IF NOT EXISTS funcionarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome  TEXT NOT NULL, " +
                 " apelido TEXT NOT NULL, telefone TEXT, email TEXT NOT NULL UNIQUE, id_categoria INTEGER, id_role INTEGER," +
                 " FOREIGN KEY (id_categoria) REFERENCES categorias (id) ON DELETE NO ACTION ON UPDATE CASCADE, " +
                 " FOREIGN KEY (id_role) REFERENCES role (id) ON DELETE NO ACTION ON UPDATE CASCADE); ");
 
-
-
-
-
-
-
-
-
-
         db.execSQL("CREATE TABLE IF NOT EXISTS docentes (id INTEGER PRIMARY KEY UNIQUE, pontos INTEGER DEFAULT 0, " +
                 " id_departamento INTEGER NOT NULL, tem_cargo_gestao TINYINT DEFAULT 0, FOREIGN KEY (id) REFERENCES funcionarios (id) ON DELETE NO ACTION " +
                 " ON UPDATE CASCADE, FOREIGN KEY (id_departamento) REFERENCES departamentos (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
-
 
         db.execSQL("CREATE TABLE IF NOT EXISTS disciplinas (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL UNIQUE, " +
                 " sigla TEXT NOT NULL UNIQUE, id_departamento INTEGER NOT NULL , id_ruc INTEGER UNIQUE, FOREIGN KEY " +
                 " (id_departamento) REFERENCES departamentos (id) ON DELETE NO ACTION ON UPDATE CASCADE, " +
                 " FOREIGN KEY (id_ruc) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
-
         db.execSQL("CREATE TABLE IF NOT EXISTS docente_disciplina (id INTEGER PRIMARY KEY AUTOINCREMENT, id_disciplina " +
                 " INTEGER NOT NULL, id_docente INTEGER NOT NULL, CONSTRAINT unique_pair UNIQUE (id_disciplina, id_docente), " +
                 " FOREIGN KEY (id_docente) REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE, " +
                 " FOREIGN KEY (id_disciplina) REFERENCES disciplinas (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
 
-
-
-
-
-
-
-
-
-
-
-
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
                 " data TEXT NOT NULL, hora TEXT NOT NULL, id_ruc INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
                 " pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
-
 
         db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia  (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, id_vigilancia " +
                 "  INTEGER NOT NULL,id_docente INTEGER NOT NULL, estado TEXT CHECK (estado IN ('Pendente', 'Aceite', 'Recusado'))" +
@@ -102,16 +69,10 @@ public class DBManager extends SQLiteOpenHelper {
                 " ACTION ON UPDATE CASCADE, FOREIGN KEY (id_vigilancia) REFERENCES vigilancias (id) ON DELETE NO ACTION ON UPDATE" +
                 " CASCADE);");
 
-
-
-
-
-
         db.execSQL("CREATE TABLE IF NOT EXISTS vigilancias_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sala TEXT NOT NULL, " +
                 " data TEXT NOT NULL, hora TEXT NOT NULL, id_ruc INTEGER NOT NULL, id_disciplina INTEGER NOT NULL," +
                 "pontuacao_vigilancia INTEGER NOT NULL DEFAULT 1,FOREIGN KEY (id_ruc) " +
                 " REFERENCES docentes (id) ON DELETE NO ACTION ON UPDATE CASCADE);");
-
 
         db.execSQL("CREATE TABLE IF NOT EXISTS docente_vigilancia_history (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,id_vigilancia " +
                 " INTEGER NOT NULL, id_docente INTEGER NOT NULL, esteve_presente TINYINT DEFAULT 0,justificacao TEXT, FOREIGN KEY " +
@@ -508,12 +469,9 @@ public class DBManager extends SQLiteOpenHelper {
         this.getWritableDatabase().insertOrThrow("disciplinas","",contentValues);
     }
 
-<<<<<<< HEAD
-    public /*boolean*/ void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {
+    //public /*boolean*/ void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {}
 
-=======
     public void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {
->>>>>>> bernardof
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
@@ -521,12 +479,9 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas", disciplina));
         contentValues.put("pontuacao_vigilancia", Integer.parseInt(pontuacao));
-<<<<<<< HEAD
 		
         long insertResult = this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
-=======
         this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
->>>>>>> bernardof
 
         String sql = "SELECT id FROM vigilancias WHERE sala = ? AND data = ? AND hora = ? " +
                 "AND id_ruc = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
@@ -545,19 +500,17 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         if(qtdNecessaria > 0)
-<<<<<<< HEAD
             /*return */assignDocenteToVigilancia(qtdNecessaria, getIdFuncionario(emailVig), idVigilancia); //put this to return boolean
 	   /* return (insertResult != -1)? true : false;*/
     }
 
-    private /*boolean*/ void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
-=======
+    /*
+    private boolean void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
             assignDocenteToVigilancia(qtdNecessaria, getIdFuncionario(emailVig), idVigilancia);
-    }
+    }*/
 
 
     private void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
->>>>>>> bernardof
         qtdNecessaria += 2;
         String qtd = String.valueOf(qtdNecessaria);
         String id = getIdDepartamento(String.valueOf(idFuncionario));
@@ -581,7 +534,6 @@ public class DBManager extends SQLiteOpenHelper {
                     } while (c.moveToNext());
                 }
             }
-<<<<<<< HEAD
         }
 
         for(int id_docente : docentes) {
@@ -610,10 +562,9 @@ public class DBManager extends SQLiteOpenHelper {
             assignDocenteToVigilancia(qtdNecessaria, idFuncionario, idVigilancia);
     }
 
-    public /*boolean*/ void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
-// >>>>>>> Pedro
-=======
-        }
+    /*public boolean void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
+
+
 
         for(int id_docente : docentes) {
             ContentValues values = new ContentValues();
@@ -625,9 +576,10 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         //TODO Falta a notificação
-    }
+    }*/
 
-    private void editAssignedDotcenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+
+    /*private void editAssignedDotcenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
         String sql = "SELECT id FROM docente_vigilancia WHERE id_vigilancia = " + idVigilancia;
         Cursor c = this.getWritableDatabase().rawQuery(sql,null);
 
@@ -639,33 +591,28 @@ public class DBManager extends SQLiteOpenHelper {
 
         if(qtdNecessaria > 0)
             assignDocenteToVigilancia(qtdNecessaria, idFuncionario, idVigilancia);
-    }
+    }*/
 
     public void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
->>>>>>> bernardof
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
         contentValues.put("hora", hora);
         contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas",disciplina));
-<<<<<<< HEAD
         contentValues.put("pontuacao_vigilancia", pontuacao);/*
-<<<<<<< HEAD
 
         if(this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK) != -1){
             return true;
         } else {
             return false;
         }
-=======*/
+        */
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
 
-=======
         contentValues.put("pontuacao_vigilancia", pontuacao);
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
 
->>>>>>> bernardof
         editAssignedDotcenteToVigilancia(qtdPretendida, getIdFuncionario(emailVig), Integer.parseInt(id));
     }
 
@@ -795,10 +742,6 @@ public class DBManager extends SQLiteOpenHelper {
         return ids;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> bernardof
     private int getIdDisciplinaFromNome(String nome) {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT id FROM disciplinas WHERE nome like '" + nome + "'",null);
         if(cursor.moveToFirst()) {

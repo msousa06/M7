@@ -10,10 +10,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.INTERNET" />
-<<<<<<< HEAD
-=======
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
->>>>>>> bernardof
 
     <application
         android:allowBackup="true"
@@ -34,11 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-		
-=======
-<<<<<<< HEAD
->>>>>>> bernardof
         <activity android:name=".Create.AdicionarDocenteActivity" />
         <activity android:name=".Create.AgendarVigilanciaActivity" />
         <activity android:name=".Create.AdicionarCategoriaActivity" />
@@ -59,8 +51,4 @@
         <activity android:name=".Read.SearchVigilanciaResultActivity" />
 
     </application>
-<<<<<<< HEAD
-=======
-
->>>>>>> bernardof
 </manifest>

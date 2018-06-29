@@ -1,18 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.android.gms:play-services-tasks-license-11.8.0">
     <CLASSES>
-<<<<<<< HEAD
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-11.8.0.aar/dada0a14c95787b22f40f0785ac9b986/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-11.8.0.aar/dada0a14c95787b22f40f0785ac9b986/res" />
-=======
-<<<<<<< HEAD
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-11.8.0.aar/dada0a14c95787b22f40f0785ac9b986/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-11.8.0.aar/dada0a14c95787b22f40f0785ac9b986/res" />
-=======
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-11.8.0.aar/a9b9625d532b35074b1316cb2c587da1/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-tasks-license-11.8.0.aar/a9b9625d532b35074b1316cb2c587da1/jars/classes.jar!/" />
->>>>>>> 3c3b92a543c3964907d954b2016a5cc7521c2ac1
->>>>>>> bernardof
     </CLASSES>
     <JAVADOC />
     <SOURCES />

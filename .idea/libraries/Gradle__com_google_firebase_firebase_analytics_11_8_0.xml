@@ -1,18 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-analytics-11.8.0">
     <CLASSES>
-<<<<<<< HEAD
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-11.8.0.aar/c96abf54520219ef8a4045c3c22bccbb/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-11.8.0.aar/c96abf54520219ef8a4045c3c22bccbb/res" />
-=======
-<<<<<<< HEAD
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-11.8.0.aar/c96abf54520219ef8a4045c3c22bccbb/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-11.8.0.aar/c96abf54520219ef8a4045c3c22bccbb/res" />
-=======
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-11.8.0.aar/66f737a6a6f9989176999bf429eed643/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-11.8.0.aar/66f737a6a6f9989176999bf429eed643/jars/classes.jar!/" />
->>>>>>> 3c3b92a543c3964907d954b2016a5cc7521c2ac1
->>>>>>> bernardof
     </CLASSES>
     <JAVADOC />
     <SOURCES />
