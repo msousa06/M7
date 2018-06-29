@@ -69,6 +69,8 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
                 if (!salatxt.getText().toString().equalsIgnoreCase("")) {
                     if (!mDisplayDate.getText().toString().equalsIgnoreCase("")) {
                         if (!mDisplayTime.getText().toString().equalsIgnoreCase("")) {
+                            manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
+                            sentNotification();
                             manager.insert_vigilancia(
                                     salatxt.getText().toString(),
                                     mDisplayDate.getText().toString(),
@@ -199,15 +201,14 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, items);
         spinnerPontuacao.setAdapter(adapter);
     }
-/*
+
     public void sentNotification(){
-        Intent intent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, "Notificação de Vigilancia");
         intent.putExtra(Intent.EXTRA_TEXT, "Foi requisitado para uma vigilância no dia " + mDisplayDate.getText().toString() + "às " + mDisplayTime.getText().toString() + " horas." + "\n Disciplina: " + spinnerUC.getSelectedItem().toString());
-        intent.setData(Uri.parse("mailto:" + spinnerVig.getSelectedItem().toString())); // or just "mailto:" for blank
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+        intent.setData(Uri.parse("mailto:" + spinnerVig.getSelectedItem().toString()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-    */
 }
