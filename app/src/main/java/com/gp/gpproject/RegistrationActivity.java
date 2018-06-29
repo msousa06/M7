@@ -84,6 +84,17 @@ public class RegistrationActivity extends Activity {
         firebaseAuth = FirebaseAuth.getInstance();
         btnRegis = (Button) findViewById(R.id.buttonRegister);
 
+<<<<<<< HEAD
+		/*
+        TextView login = (TextView) findViewById(R.id.textSignin);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+            }
+        });*/
+=======
+>>>>>>> bernardof
 
         btnRegis.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,9 +5,14 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-11.8.0.aar/a8bbaae94a64870819c3e9380784645b/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-11.8.0.aar/a8bbaae94a64870819c3e9380784645b/res" />
 =======
+<<<<<<< HEAD
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-11.8.0.aar/a8bbaae94a64870819c3e9380784645b/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-11.8.0.aar/a8bbaae94a64870819c3e9380784645b/res" />
+=======
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-11.8.0.aar/0ad8993df021444530882187ebda1973/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-11.8.0.aar/0ad8993df021444530882187ebda1973/jars/classes.jar!/" />
 >>>>>>> 3c3b92a543c3964907d954b2016a5cc7521c2ac1
+>>>>>>> bernardof
     </CLASSES>
     <JAVADOC />
     <SOURCES />

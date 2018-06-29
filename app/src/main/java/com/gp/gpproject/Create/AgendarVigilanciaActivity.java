@@ -39,6 +39,7 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
     private Spinner spinnerVig;
     private Spinner spinnerPontuacao;
     private EditText salatxt;
+    private EditText qtdPretendida;
     private DBManager manager;
     private AlertDialog alertDialog;
 
@@ -52,6 +53,7 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
         spinnerVig = (Spinner) findViewById(R.id.spinnerVig);
         spinnerPontuacao = (Spinner) findViewById(R.id.spinnerPontuacao);
         salatxt = (EditText) findViewById(R.id.salatxt);
+        qtdPretendida = (EditText) findViewById(R.id.qtdPretendida);
         manager = new DBManager(this);
 
         setDate();
@@ -69,6 +71,15 @@ public class AgendarVigilanciaActivity extends AppCompatActivity {
                         if (!mDisplayTime.getText().toString().equalsIgnoreCase("")) {
                             manager.insert_vigilancia(salatxt.getText().toString(), mDisplayDate.getText().toString(), mDisplayTime.getText().toString(), spinnerVig.getSelectedItem().toString(), spinnerUC.getSelectedItem().toString(), spinnerPontuacao.getSelectedItem().toString());
                             sentNotification();
+                            manager.insert_vigilancia(
+                                    salatxt.getText().toString(),
+                                    mDisplayDate.getText().toString(),
+                                    mDisplayTime.getText().toString(),
+                                    spinnerVig.getSelectedItem().toString(),
+                                    spinnerUC.getSelectedItem().toString(),
+                                    spinnerPontuacao.getSelectedItem().toString(),
+                                    Integer.parseInt(qtdPretendida.getText().toString()));
+                        //    sentNotification();
                             finish();
                         } else {
                             alertDialog = new AlertDialog.Builder(AgendarVigilanciaActivity.this).create();

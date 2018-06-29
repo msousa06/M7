@@ -22,6 +22,10 @@ public class DBManager extends SQLiteOpenHelper {
     //private FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "m7database.db";
+<<<<<<< HEAD
+
+=======
+>>>>>>> bernardof
 
 
 
@@ -129,6 +133,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS vigilancias_history");
         db.execSQL("DROP TABLE IF EXISTS docente_vigilancia_history");
         onCreate(db);
+
     }
 
     public void insert_funcionario(String nome, String apelido, String telefone, String email, int categoria){
@@ -503,7 +508,12 @@ public class DBManager extends SQLiteOpenHelper {
         this.getWritableDatabase().insertOrThrow("disciplinas","",contentValues);
     }
 
+<<<<<<< HEAD
+    public /*boolean*/ void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {
+
+=======
     public void insert_vigilancia(String sala, String data, String hora, String emailVig, String disciplina, String pontuacao, int qtdNecessaria) {
+>>>>>>> bernardof
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
@@ -511,7 +521,12 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas", disciplina));
         contentValues.put("pontuacao_vigilancia", Integer.parseInt(pontuacao));
+<<<<<<< HEAD
+		
+        long insertResult = this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
+=======
         this.getWritableDatabase().insertOrThrow("vigilancias", "", contentValues);
+>>>>>>> bernardof
 
         String sql = "SELECT id FROM vigilancias WHERE sala = ? AND data = ? AND hora = ? " +
                 "AND id_ruc = ? AND id_disciplina = ?  AND pontuacao_vigilancia = ?";
@@ -530,11 +545,19 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         if(qtdNecessaria > 0)
+<<<<<<< HEAD
+            /*return */assignDocenteToVigilancia(qtdNecessaria, getIdFuncionario(emailVig), idVigilancia); //put this to return boolean
+	   /* return (insertResult != -1)? true : false;*/
+    }
+
+    private /*boolean*/ void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+=======
             assignDocenteToVigilancia(qtdNecessaria, getIdFuncionario(emailVig), idVigilancia);
     }
 
 
     private void assignDocenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+>>>>>>> bernardof
         qtdNecessaria += 2;
         String qtd = String.valueOf(qtdNecessaria);
         String id = getIdDepartamento(String.valueOf(idFuncionario));
@@ -558,6 +581,38 @@ public class DBManager extends SQLiteOpenHelper {
                     } while (c.moveToNext());
                 }
             }
+<<<<<<< HEAD
+        }
+
+        for(int id_docente : docentes) {
+            ContentValues values = new ContentValues();
+            values.put("id_vigilancia", idVigilancia);
+            values.put("id_docente", id_docente);
+            values.put("esteve_presente", 0);
+            values.put("justificacao", "");
+            this.getWritableDatabase().insertOrThrow("docente_vigilancia", "", values);
+        }
+
+        //TODO Falta a notificação
+    }
+
+    private /*boolean*/ void editAssignedDotcenteToVigilancia(int qtdNecessaria, int idFuncionario, int idVigilancia) {
+        String sql = "SELECT id FROM docente_vigilancia WHERE id_vigilancia = " + idVigilancia;
+        Cursor c = this.getWritableDatabase().rawQuery(sql,null);
+
+        if(c.moveToFirst()) {
+            do {
+                this.getWritableDatabase().execSQL("delete from docente_vigilancia where id = ?", new String[] {String.valueOf(idVigilancia)});
+            } while (c.moveToNext());
+        }
+
+        if(qtdNecessaria > 0)
+            assignDocenteToVigilancia(qtdNecessaria, idFuncionario, idVigilancia);
+    }
+
+    public /*boolean*/ void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
+// >>>>>>> Pedro
+=======
         }
 
         for(int id_docente : docentes) {
@@ -587,15 +642,30 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     public void updateVigilancia(String id, String sala, String data, String hora, String emailVig, String disciplina, int pontuacao, int qtdPretendida){
+>>>>>>> bernardof
         ContentValues contentValues = new ContentValues();
         contentValues.put("sala", sala);
         contentValues.put("data", data);
         contentValues.put("hora", hora);
         contentValues.put("id_ruc", getIdFuncionario(emailVig));
         contentValues.put("id_disciplina", getIdFromName("disciplinas",disciplina));
+<<<<<<< HEAD
+        contentValues.put("pontuacao_vigilancia", pontuacao);/*
+<<<<<<< HEAD
+
+        if(this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK) != -1){
+            return true;
+        } else {
+            return false;
+        }
+=======*/
+        this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
+
+=======
         contentValues.put("pontuacao_vigilancia", pontuacao);
         this.getWritableDatabase().updateWithOnConflict("vigilancias", contentValues, "id = " + id,null,SQLiteDatabase.CONFLICT_ROLLBACK);
 
+>>>>>>> bernardof
         editAssignedDotcenteToVigilancia(qtdPretendida, getIdFuncionario(emailVig), Integer.parseInt(id));
     }
 
@@ -725,6 +795,10 @@ public class DBManager extends SQLiteOpenHelper {
         return ids;
     }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> bernardof
     private int getIdDisciplinaFromNome(String nome) {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT id FROM disciplinas WHERE nome like '" + nome + "'",null);
         if(cursor.moveToFirst()) {
@@ -766,5 +840,6 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM vigilancias_history",null);
 
         insert_vigilancias_result_in_TextView(textView, cursor);
+
     }
 }

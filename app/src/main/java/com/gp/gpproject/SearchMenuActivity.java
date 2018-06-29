@@ -92,7 +92,8 @@ public class SearchMenuActivity extends AppCompatActivity {
 
     public void searchOwnVigilancias() {
         Intent goSearchOwnVigilancias = new Intent(SearchMenuActivity.this, SearchVigilanciaResultActivity.class);
-        goSearchOwnVigilancias.putExtra("SearchID", "1");
+        goSearchOwnVigilancias.putExtra("SearchID", "1" /*manager.getIdFuncionario()//GET Email from intent extra*/);
+
         //TODO rever o modo que o id do docente logado "viaja" dentro da aplicação
         startActivity(goSearchOwnVigilancias);
     }
@@ -231,7 +232,5 @@ public class SearchMenuActivity extends AppCompatActivity {
         intent.putExtra("AllHistory", true);
         //TODO rever o modo que o id do docente logado "viaja" dentro da aplicação
         startActivity(intent);
-
-        Toast.makeText(SearchMenuActivity.this, "Botão não implementado", Toast.LENGTH_LONG).show();
     }
 }
